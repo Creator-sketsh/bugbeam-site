@@ -17,13 +17,13 @@ a{color:inherit;text-decoration:none}
 .mono{font-family:'JetBrains Mono',monospace}
 h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:-.025em;margin:0}
 /* background */
-.bgfx{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+.bgfx{position:fixed;inset:0;z-index:-1;pointer-events:none;transform:translateZ(0);background:
  radial-gradient(700px 500px at 15% -5%,rgba(37,99,235,.28),transparent 70%),
  radial-gradient(600px 500px at 95% 20%,rgba(14,165,233,.16),transparent 70%),
  radial-gradient(700px 600px at 50% 110%,rgba(124,58,237,.14),transparent 70%),var(--bg)}
 .bgfx::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.05) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(180deg,#000,transparent 85%)}
 /* nav */
-nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;width:min(1120px,calc(100% - 24px));display:flex;align-items:center;gap:20px;padding:10px 12px 10px 18px;border-radius:16px;background:rgba(8,13,28,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line)}
+nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;width:min(1120px,calc(100% - 24px));display:flex;align-items:center;gap:20px;padding:10px 12px 10px 18px;border-radius:16px;background:rgba(8,13,28,.94);border:1px solid var(--line)}
 .logo{display:flex;align-items:center;gap:9px;font:700 21px 'Space Grotesk';letter-spacing:-.02em}.logo b{color:var(--cyan);font-weight:700}
 nav .links{display:flex;gap:22px;margin-left:auto;font-size:14px;color:var(--mut);font-weight:500}nav .links a:hover{color:#fff}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:12px;font:700 15px Inter;border:1px solid transparent;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s;white-space:nowrap}
@@ -139,10 +139,10 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 .ghost{position:absolute;border:1.5px dashed var(--cyan);border-radius:18px;display:none}
 .ghost b{position:absolute;left:6px;top:-17px;font:700 10px 'JetBrains Mono';color:var(--cyan);white-space:nowrap}
 #crew{position:fixed;inset:0;pointer-events:none;z-index:60}
-.cur{position:absolute;left:0;top:0;opacity:0;transition:opacity .3s;will-change:transform}
+.cur{position:absolute;left:0;top:0;opacity:0;transition:opacity .25s;will-change:transform,opacity}
 .cur .lab{position:absolute;left:14px;top:15px;padding:3px 8px;border-radius:6px;font:700 11px Inter;color:#04121F;white-space:nowrap;box-shadow:0 4px 12px -2px rgba(0,0,0,.5)}
 .cur .tool{position:absolute;left:-20px;top:-19px;font-size:19px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))}
-#hud{position:fixed;left:16px;bottom:16px;z-index:55;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:rgba(8,13,28,.85);backdrop-filter:blur(10px);border:1px solid var(--line);font:700 12px 'JetBrains Mono';color:var(--mut)}
+#hud{position:fixed;left:16px;bottom:16px;z-index:55;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:rgba(8,13,28,.94);border:1px solid var(--line);font:700 12px 'JetBrains Mono';color:var(--mut)}
 #hud .bar{width:90px;height:4px;border-radius:4px;background:rgba(148,163,184,.2);overflow:hidden}#hud .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3B82F6,#38BDF8)}
 #hud .avs{display:flex}#hud .avs i{width:14px;height:14px;border-radius:50%;border:2px solid #0A1022;margin-left:-5px}
 .watch{display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center}
@@ -150,6 +150,30 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 .phone video{width:100%;height:100%;object-fit:cover;border-radius:26px;display:block;background:#04060D}
 @media (max-width:980px){.watch{grid-template-columns:1fr;justify-items:center;text-align:center}.watch .lead{margin:0 auto}.watch .ctas{justify-content:center}}
 @media (max-width:560px){.phone{width:min(280px,82vw)}}
+.pains{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:48px}
+.pain{padding:22px;border-radius:18px;background:var(--card);border:1px solid var(--line)}
+.pain .pic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:rgba(239,68,68,.12);margin-bottom:14px}
+.pain h3{font-size:18px;margin-bottom:6px}.pain p{margin:0;color:var(--mut);font-size:14.5px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.vcol{padding:24px 26px;border-radius:20px;border:1px solid var(--line)}
+.vcol.bad{background:linear-gradient(180deg,rgba(239,68,68,.09),rgba(239,68,68,.02)),var(--card);border-color:rgba(239,68,68,.25)}
+.vcol.good{background:linear-gradient(180deg,rgba(52,211,153,.12),rgba(52,211,153,.02)),var(--card);border-color:rgba(52,211,153,.35)}
+.vh{font:700 18px 'Space Grotesk';margin-bottom:12px}.bad .vh{color:#FCA5A5}.good .vh{color:#6EE7B7}
+.vcol ul{list-style:none;padding:0;margin:0;display:grid;gap:10px;font-size:15px}
+.bad li{color:var(--mut)}.vcol li{padding-left:22px;position:relative}
+.bad li::before{content:"✗";position:absolute;left:0;color:#F87171;font-weight:800}.good li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800}
+.cmp{margin-top:22px;border-radius:22px;background:var(--card);border:1px solid var(--line);padding:22px 22px 8px}
+.cmph{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}.cmph h3{font-size:22px}.cmph span{color:var(--mut);font-size:14px}
+.cmp table{width:100%;border-collapse:collapse;font-size:14.5px}
+.cmp th{font:600 13px Inter;color:var(--mut);padding:12px 10px;text-align:center;vertical-align:bottom}.cmp th b{display:block;font:700 20px 'Space Grotesk';color:var(--txt);margin-top:2px}
+.cmp td{padding:12px 10px;border-top:1px solid var(--line);text-align:center;color:var(--txt)}
+.cmp td:first-child{text-align:left;color:var(--txt);font-weight:500}.cmp td.no{color:var(--dim)}
+.cmp td:not(:first-child):not(.no){color:#A7F3D0;font-weight:600}
+.cmp .hl{background:rgba(37,99,235,.1)}.cmp th.hl{border-radius:12px 12px 0 0;color:#BFDBFE}
+.final{text-align:center;padding:60px 30px;border-radius:28px;background:radial-gradient(600px 300px at 50% 0%,rgba(56,189,248,.25),transparent 70%),linear-gradient(135deg,rgba(37,99,235,.2),rgba(124,58,237,.14)),var(--card);border:1px solid rgba(56,189,248,.35)}
+.final .lead{margin:0 auto}
+@media (max-width:980px){.pains{grid-template-columns:repeat(2,1fr)}.vs{grid-template-columns:1fr}}
+@media (max-width:560px){.pains{grid-template-columns:1fr}.cmp{padding:16px 10px 4px}.cmp table{font-size:12.5px}.cmp th,.cmp td{padding:10px 5px}.cmp th{font-size:11px}.cmp th b{font-size:16px}.final{padding:40px 18px}}
 /* responsive */
 @media (max-width:980px){
  .hero .grid,.rep,.order{grid-template-columns:1fr}.agents{grid-template-columns:repeat(2,1fr)}.steps,.nums{grid-template-columns:repeat(2,1fr)}.prices{grid-template-columns:1fr;max-width:460px;margin-left:auto;margin-right:auto}
@@ -166,7 +190,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 
 <nav>
  <a class="logo" href="#top"><svg width="30" height="30" viewBox="0 0 48 48"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#38BDF8" stop-opacity=".9"/><stop offset="1" stop-color="#38BDF8" stop-opacity="0"/></linearGradient></defs><path d="M24 1 L8 44 H40 Z" fill="url(#lg1)" opacity=".55"/><circle cx="24" cy="3" r="2.6" fill="#38BDF8"/><g stroke="#fff" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="24" cy="31.7" rx="5.4" ry="7.2"/><circle cx="24" cy="22.7" r="3.06"/><path d="M24 26.3V38.9"/><path d="M18.6 29H14.1M29.4 29H33.9M19.05 34.4L15.0 37.55M28.95 34.4L33.0 37.55M19.05 25.4L15.45 22.25M28.95 25.4L32.55 22.25"/></g></svg>Bug<b>beam</b></a>
- <div class="links"><a href="#watch">Watch</a><a href="#crew-sec">The agents</a><a href="#how">How it works</a><a href="#report">The report</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
+ <div class="links"><a href="#why">Why us</a><a href="#watch">Watch</a><a href="#crew-sec">The agents</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
  <a class="btn pri" href="#order">Test my site</a>
 </nav>
 
@@ -191,12 +215,29 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 <div class="hint"><span><span class="mouse"></span>Scroll and watch our agents build this page</span></div>
 </header>
 
+<section id="why"><div class="wrap">
+ <div class="center"><div class="eyebrow" data-type>Why you need us</div>
+ <h2 class="h2" data-type>Your users won't report bugs. They'll just leave.</h2>
+ <p class="lead" data-type>You tested your site on your own laptop, logged in, the way you built it. Your visitors come on phones and small screens, take paths you never tried, and when something breaks they don't email you. They close the tab.</p></div>
+ <div class="pains">
+  <div class="pain bx"><div class="pic">📱</div><h3 data-type>"It works on my laptop"</h3><p data-type>Many visitors arrive on a phone. A menu that covers the button, or a form that won't scroll, and nobody signs up.</p></div>
+  <div class="pain bx"><div class="pic">🔕</div><h3 data-type>Nobody tells you</h3><p data-type>People who hit a bug rarely write to you. You just see fewer sign-ups and never learn why.</p></div>
+  <div class="pain bx"><div class="pic">👀</div><h3 data-type>You're too close to it</h3><p data-type>You know where to click, so you never take the wrong path. New visitors take it all the time.</p></div>
+  <div class="pain bx"><div class="pic">⏱️</div><h3 data-type>Launch day happens once</h3><p data-type>The first wave of visitors comes one time. A broken first visit is a visitor you don't get back.</p></div>
+ </div>
+ <div class="vs">
+  <div class="vcol bad bx"><div class="vh">✗ Without Bugbeam</div><ul><li data-type>You hear about bugs from annoyed users, or never</li><li data-type>You test on one screen, your own</li><li data-type>You guess what to fix first</li><li data-type>Your site goes down at 3 am and you find out at noon</li></ul></div>
+  <div class="vcol good bx"><div class="vh">✓ With Bugbeam</div><ul><li data-type>We find the bugs before your users do</li><li data-type>Desktop, tablet and phone, every time</li><li data-type>Every bug sorted High, Medium, Low, with steps</li><li data-type>Monitor checks every 5 minutes and emails you</li></ul></div>
+ </div>
+ <p class="paynote" style="font-size:16px;margin-top:28px" data-type>If the report saves you even one customer, it has already paid for itself.</p>
+</div></section>
+
 <section id="watch" style="padding-top:40px"><div class="wrap watch">
  <div><div class="eyebrow" data-type>Watch it work</div>
  <h2 class="h2" data-type>23 seconds. 11 agents. One clean launch.</h2>
  <p class="lead" data-type>See our agents build a site, hunt its bugs, check every one twice, and send the report to the founder.</p>
  <div class="ctas" style="margin-top:26px"><a class="btn pri" href="#order">Test my site for $19 →</a></div></div>
- <div class="phone bx"><video src="bugbeam-building-live-v2.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Bugbeam agents building and testing a website"></video></div>
+ <div class="phone bx"><video src="bugbeam-building-live-v2.mp4" muted loop playsinline preload="none" aria-label="Bugbeam agents building and testing a website"></video></div>
 </div></section>
 
 <section id="crew-sec"><div class="wrap">
@@ -269,6 +310,25 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
   <div class="price best bx"><span class="badge">Most popular</span><h3 data-type>Full test</h3><div class="amt">$19</div><div class="per">one time</div><ul><li>Up to 15 pages</li><li>Desktop, tablet and phone</li><li>Every bug with screenshot and steps</li><li>PDF within 24 hours</li><li>Free re-check after 7 days</li></ul><a class="btn pri" href="#order" data-plan="Full test ($19)">Order the full test</a></div>
   <div class="price bx"><h3 data-type>Bugbeam Care</h3><div class="amt">$69</div><div class="per">for 3 months, paid once</div><ul><li>A full test every month</li><li>A check every week: what's new or fixed</li><li>An email right away if your site goes down</li><li>Every report as a PDF</li></ul><a class="btn sec" href="#order" data-plan="Bugbeam Care ($69 for 3 months)">Start Bugbeam Care</a></div>
  </div>
+<div class="cmp bx">
+  <div class="cmph"><h3>Everything we do</h3><span>and which plan includes it</span></div>
+  <table>
+   <thead><tr><th></th><th>Quick check<b>Free</b></th><th class="hl">Full test<b>$19</b></th><th>Bugbeam Care<b>$69</b></th></tr></thead>
+   <tbody>
+    <tr><td>Bug test of your public pages</td><td>a few pages</td><td class="hl">up to 15</td><td>every month</td></tr>
+    <tr><td>Desktop, tablet and phone</td><td>desktop + phone</td><td class="hl">✓</td><td>✓</td></tr>
+    <tr><td>Every bug checked twice</td><td>✓</td><td class="hl">✓</td><td>✓</td></tr>
+    <tr><td>Screenshot + exact steps for each bug</td><td>top issues</td><td class="hl">✓</td><td>✓</td></tr>
+    <tr><td>Bugs sorted High, Medium, Low</td><td>✓</td><td class="hl">✓</td><td>✓</td></tr>
+    <tr><td>Launch score from 0 to 100</td><td class="no">–</td><td class="hl">✓</td><td>✓</td></tr>
+    <tr><td>PDF report you can send your developer</td><td class="no">–</td><td class="hl">in 24 hours</td><td>every report</td></tr>
+    <tr><td>Free re-check: are your fixes working?</td><td class="no">–</td><td class="hl">after 7 days</td><td>✓</td></tr>
+    <tr><td>Weekly check: what's new or fixed</td><td class="no">–</td><td class="no hl">–</td><td>✓</td></tr>
+    <tr><td>Is it up? Checked every 5 minutes</td><td class="no">–</td><td class="no hl">–</td><td>✓</td></tr>
+    <tr><td>Email right away if your site goes down</td><td class="no">–</td><td class="no hl">–</td><td>✓</td></tr>
+   </tbody>
+  </table>
+ </div>
  <p class="paynote" data-type>Payment in USDT (TRC20). Each order gets its own exact amount, so we know it's yours the moment it arrives.</p>
 </div></section>
 
@@ -294,6 +354,12 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
   <details class="bx"><summary>I got an email from Bugbeam. Can I stop them?</summary><p>Of course. Reply "STOP" to any of our emails and you won't hear from us again.</p></details>
  </div>
 </div></section>
+
+<section id="final" style="padding-top:30px"><div class="wrap"><div class="final bx">
+ <h2 class="h2" data-type>Your launch deserves a second pair of eyes.</h2>
+ <p class="lead" data-type>Eleven, actually. Send us your link today and get your report within 24 hours.</p>
+ <div class="ctas" style="justify-content:center;margin-top:26px"><a class="btn pri" href="#order">Test my site for $19 →</a><a class="btn sec" href="mailto:elio@bugbeam.dev">Email us</a></div>
+</div></div></section>
 
 <footer><div class="wrap"><a class="logo" href="#top" style="font-size:18px">Bug<b>beam</b></a><span>QA testing for new launches · <a href="mailto:elio@bugbeam.dev" style="color:var(--cyan)">elio@bugbeam.dev</a></span><span>© 2026 Bugbeam</span></div></footer>
 
@@ -326,65 +392,84 @@ function lvRun(){const site=LV.sites[lvRound++%LV.sites.length];document.getElem
  at(10500,lvRun)}
 lvRun();
 
-/* ---------- the building effect ---------- */
+/* ---------- the building effect (light version: no layout reads while scrolling) ---------- */
 const AG=[["Bugbeam","#3B82F6"],["Scout","#A78BFA"],["Vision","#F472B6"],["Verifier","#84CC16"],["Gatekeeper","#FB7185"],["Sales","#FBBF24"],["Inbox","#38BDF8"],["Payments","#34D399"],["Full Test","#2DD4BF"],["Monitor","#22D3EE"],["Coach","#F87171"]];
 document.getElementById('hudav').innerHTML=AG.map(a=>`<i style="background:${a[1]}"></i>`).join('');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(!reduce){document.documentElement.classList.add('js');
 const clamp=x=>Math.min(1,Math.max(0,x)),ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
-// split typed text into characters (short) or words (long), no layout shift
-function split(el){const txt=el.textContent;const short=txt.length<70;el.textContent='';const w=document.createElement('span');el.appendChild(w);const parts=short?[...txt]:txt.split(/(\s+)/);
- const out=[];parts.forEach(p=>{if(/^\s+$/.test(p)){w.appendChild(document.createTextNode(p));return}const s=document.createElement('span');s.className='ch';s.textContent=p;w.appendChild(s);out.push(s)});return out}
-// steps: boxes (.bx) and typed leaves not inside a box
+function split(el){const txt=el.textContent;const short=txt.length<70;el.textContent='';const w=document.createElement('span');el.appendChild(w);
+ const parts=short?[...txt]:txt.split(/(\s+)/),out=[];
+ parts.forEach(p=>{if(/^\s+$/.test(p)){w.appendChild(document.createTextNode(p));return}const s=document.createElement('span');s.className='ch';s.textContent=p;w.appendChild(s);out.push(s)});
+ const caret=document.createElement('span');caret.className='caret';caret.style.display='none';w.appendChild(caret);return{chars:out,caret}}
 const steps=[];
 document.querySelectorAll('.bx,[data-type]').forEach(el=>{
  if(el.matches('[data-type]')&&el.parentElement.closest('.bx'))return;
- const st={el,box:el.classList.contains('bx'),hero:el.hasAttribute('data-hero')||!!el.closest('[data-hero]'),e:-1,typed:[]};
+ const st={el,box:el.classList.contains('bx'),hero:el.hasAttribute('data-hero')||!!el.closest('[data-hero]'),e:-1};
  const leaves=st.box?[...el.querySelectorAll('[data-type]')]:[el];
- st.typed=leaves.map(l=>({chars:split(l),n:-1}));
- if(st.box){const g=document.createElement('div');g.className='ghost';g.innerHTML=`<b></b>`;document.getElementById('ghosts').appendChild(g);st.ghost=g}
+ st.typed=leaves.map(l=>Object.assign({el:l,n:-1},split(l)));
+ if(st.box){const g=document.createElement('div');g.className='ghost';g.innerHTML='<b></b>';document.getElementById('ghosts').appendChild(g);st.ghost=g}
  steps.push(st)});
-steps.forEach((s,i)=>{s.i=i;s.ag=[(i*3)%11,(i*3+1)%11,(i*3+2)%11]});
-// stagger items in the same row
-function stagger(){const rows={};steps.forEach(s=>{const r=s.el.getBoundingClientRect();s.k=0;const key=Math.round((r.top+scrollY)/30);(rows[key]=rows[key]||[]).push([r.left,s])});
- Object.values(rows).forEach(a=>a.sort((x,y)=>x[0]-y[0]).forEach((x,k)=>x[1].k=k))}
-stagger();addEventListener('resize',stagger);
-// agents (fixed layer, viewport coords)
-const crew=AG.map((a,i)=>{const d=document.createElement('div');d.className='cur';d.innerHTML=`<svg width="20" height="22" viewBox="0 0 16 18"><path d="M1 1l13 7-6 1.5L5 16z" fill="${a[1]}" stroke="#04060D" stroke-width="1.2"/></svg><span class="lab" style="background:${a[1]}">${a[0]}</span><span class="tool"></span>`;document.getElementById('crew').appendChild(d);
- return{el:d,tool:d.querySelector('.tool'),x:innerWidth*(.2+.6*Math.random()),y:innerHeight*.8,tx:0,ty:0,on:false,tl:''}});
-const t0=performance.now();
-function frame(now){const vh=innerHeight,time=(now-t0)/1000;crew.forEach(c=>{c.on=false;c.tl=''});let done=0;
- let heroIdx=0;const atBottom=scrollY+vh>=document.documentElement.scrollHeight-6;
- for(const s of steps){const r=s.el.getBoundingClientRect();let e;
+steps.forEach((s,i)=>{s.ag=[(i*3)%11,(i*3+1)%11,(i*3+2)%11]});
+// measure once (and again only when the layout really changes)
+function measure(){const sy=scrollY,rows={};
+ steps.forEach(s=>{const r=s.el.getBoundingClientRect();s.top=r.top+sy;s.left=r.left;s.w=r.width;s.h=r.height;
+  s.typed.forEach(t=>{const q=t.el.getBoundingClientRect();t.top=q.top+sy;t.left=q.left;t.w=q.width;t.h=q.height});
+  const key=Math.round(s.top/30);(rows[key]=rows[key]||[]).push(s)});
+ Object.values(rows).forEach(a=>a.sort((x,y)=>x.left-y.left).forEach((s,k)=>s.k=k));
+ steps.forEach(s=>{if(s.ghost){const G=s.ghost;G.style.left=s.left+scrollX+'px';G.style.top=s.top+'px';G.style.width=s.w+'px';G.style.height=s.h+'px';G.firstChild.textContent=`${Math.round(s.w)} × ${Math.round(s.h)}`}});
+ docH=document.documentElement.scrollHeight;dirty=true}
+let docH=0,dirty=true,mt=null;
+const remeasure=()=>{clearTimeout(mt);mt=setTimeout(measure,150)};
+measure();addEventListener('resize',remeasure);addEventListener('load',measure);if(document.fonts)document.fonts.ready.then(measure);
+if(window.ResizeObserver)new ResizeObserver(remeasure).observe(document.body);
+addEventListener('scroll',()=>{dirty=true},{passive:true});
+// the agents
+const crew=AG.map(a=>{const d=document.createElement('div');d.className='cur';d.innerHTML=`<svg width="20" height="22" viewBox="0 0 16 18"><path d="M1 1l13 7-6 1.5L5 16z" fill="${a[1]}" stroke="#04060D" stroke-width="1.2"/></svg><span class="lab" style="background:${a[1]}">${a[0]}</span><span class="tool"></span>`;document.getElementById('crew').appendChild(d);
+ return{el:d,tool:d.querySelector('.tool'),x:-200,y:-200,tx:0,ty:0,on:false,was:false,tl:'',last:''}});
+function use(i,x,y,tl){const c=crew[i];if(c.on)return;if(!c.was){c.x=x+(Math.random()-.5)*120;c.y=y+60}c.on=true;c.tx=x;c.ty=y;c.tl=tl}
+const hud=document.getElementById('hudtxt'),hbar=document.getElementById('hudbar');let lastPct=-1;
+const t0=performance.now(),HERO_END=7;
+function frame(now){
+ const time=(now-t0)/1000,vh=innerHeight,sy=scrollY;
+ const anyActive=steps.some(s=>s.e>0&&s.e<1);
+ if(!dirty&&!anyActive&&time>HERO_END){crew.forEach(c=>{if(c.was){c.el.style.opacity=0;c.was=false}});requestAnimationFrame(frame);return}
+ dirty=false;crew.forEach(c=>{c.on=false});
+ const atBottom=sy+vh>=docH-6;let done=0,heroIdx=0;
+ for(const s of steps){
+  const top=s.top-sy;let e;
   if(s.hero){e=clamp((time-.25-heroIdx*.32)/(s.box?1.1:.8));heroIdx++}
-  else{e=clamp((vh*.97-r.top-s.k*55)/(vh*.38));if(atBottom&&r.top<vh)s.forced=true;if(s.forced)e=Math.max(e,Math.min(1,(s.e<0?0:s.e)+.03))}
+  else{e=clamp((vh*.97-top-s.k*55)/(vh*.38));if(atBottom&&top<vh)s.forced=true;if(s.forced)e=Math.max(e,Math.min(1,(s.e<0?0:s.e)+.03))}
   if(e>=1)done++;
-  if(e===s.e&&(e===0||e===1))continue;   // nothing changed
-  s.e=e;
+  if(e===s.e)continue;
+  const prev=s.e;s.e=e;
   if(s.box){const o=clamp(e/.28),g=ease(clamp((e-.22)/.3)),p=clamp((e-.5)/.2);
-   s.el.style.setProperty('--g',g);s.el.style.setProperty('--p',p);s.el.classList.toggle('done',e>=1);
-   const G=s.ghost;if(e>0&&e<.75){G.style.display='block';G.style.left=(r.left+scrollX)+'px';G.style.top=(r.top+scrollY)+'px';G.style.width=r.width+'px';G.style.height=r.height+'px';
-     G.style.clipPath=`inset(0 ${(1-o)*100}% ${(1-o)*100}% 0)`;G.style.opacity=1-clamp((e-.55)/.2);G.firstChild.textContent=`${Math.round(r.width)} × ${Math.round(r.height)}`}else G.style.display='none';
-   // agents on this box
-   if(e>0&&e<1){const [a,b,c]=s.ag;
-    if(e<.52){const cx=e<.22?r.left+r.width*o:r.left+r.width*Math.max(o,g),cy=e<.22?r.top:r.top+r.height*g;use(a,cx,cy,'✏️')}
-    else if(e<.72)use(b,r.left+r.width*p,r.top+r.height*.5,'🖌️')}
-  }
-  // typing
+   if(e>=1){if(prev<1){s.el.classList.add('done');s.el.style.removeProperty('--g');s.el.style.removeProperty('--p')}}
+   else{s.el.classList.remove('done');s.el.style.setProperty('--g',g.toFixed(3));s.el.style.setProperty('--p',p.toFixed(3))}
+   const G=s.ghost;if(e>0&&e<.75){G.style.display='block';G.style.clipPath=`inset(0 ${(1-o)*100}% ${(1-o)*100}% 0)`;G.style.opacity=1-clamp((e-.55)/.2)}else if(G.style.display!=='none')G.style.display='none';
+   if(e>0&&e<1&&top<vh&&top+s.h>0){const [a,b]=s.ag;
+    if(e<.52){const cx=e<.22?s.left+s.w*o:s.left+s.w*Math.max(o,g),cy=e<.22?top:top+s.h*g;use(a,cx,cy,'✏️')}
+    else if(e<.72)use(b,s.left+s.w*p,top+s.h*.5,'🖌️')}}
   const tStart=s.box?.6:0,tLen=1-tStart,L=s.typed.length;
-  s.typed.forEach((tl,j)=>{const a=tStart+(tLen*.85)*(j/L),k=e>=1?1:clamp((e-a)/((tLen*.85)/L+.04));const n=Math.round(k*tl.chars.length);
-   if(n!==tl.n){for(let q=0;q<tl.chars.length;q++)tl.chars[q].classList.toggle('on',q<n);
-    const old=s.el.querySelector('.caret');if(old)old.remove();
-    if(n>0&&n<tl.chars.length){const cr=document.createElement('span');cr.className='caret';tl.chars[n-1].after(cr)}tl.n=n}
-   if(k>0&&k<1&&tl.chars.length){const ch=tl.chars[Math.max(0,tl.n-1)].getBoundingClientRect();use(s.ag[2],ch.right+4,ch.bottom-2,'⌨️')}});
+  s.typed.forEach((tl,j)=>{const a=tStart+(tLen*.85)*(j/L),k=e>=1?1:clamp((e-a)/((tLen*.85)/L+.04));const N=tl.chars.length,n=Math.round(k*N);
+   if(n!==tl.n){const lo=Math.min(n,Math.max(tl.n,0)),hi=Math.max(n,Math.max(tl.n,0));
+    for(let q=lo;q<hi;q++)tl.chars[q].classList.toggle('on',q<n);
+    if(tl.n<0)for(let q=n;q<N;q++)tl.chars[q].classList.remove('on');
+    if(n>0&&n<N){tl.chars[n-1].after(tl.caret);tl.caret.style.display=''}else tl.caret.style.display='none';tl.n=n}
+   if(k>0&&k<1&&N){const tt=tl.top-sy;if(tt<vh&&tt>-40){const lines=Math.max(1,Math.round(tl.h/28)),pos=k*lines,line=Math.min(lines-1,Math.floor(pos));
+     use(s.ag[2],tl.left+tl.w*(pos-line)+4,tt+tl.h*(line+1)/lines-2,'⌨️')}}});
  }
- crew.forEach(c=>{if(c.on){c.x+=(c.tx-c.x)*.28;c.y+=(c.ty-c.y)*.28}c.el.style.opacity=c.on?1:0;c.el.style.transform=`translate(${c.x}px,${c.y}px)`;if(c.on)c.tool.textContent=c.tl});
- const pct=Math.round(done/steps.length*100);document.getElementById('hudbar').style.width=pct+'%';
- document.getElementById('hudtxt').textContent=pct<100?`11 agents · building this page · ${pct}%`:'✓ page built · 0 bugs found';
+ crew.forEach(c=>{if(c.on){c.x+=(c.tx-c.x)*.3;c.y+=(c.ty-c.y)*.3;c.el.style.transform=`translate3d(${c.x}px,${c.y}px,0)`;if(c.tl!==c.last){c.tool.textContent=c.tl;c.last=c.tl}if(!c.was){c.el.style.opacity=1;c.was=true}dirty=true}
+  else if(c.was){c.el.style.opacity=0;c.was=false}});
+ const pct=Math.round(done/steps.length*100);
+ if(pct!==lastPct){hbar.style.width=pct+'%';hud.textContent=pct<100?`11 agents · building this page · ${pct}%`:'✓ page built · 0 bugs found';lastPct=pct}
  requestAnimationFrame(frame)}
-function use(i,x,y,tl){const c=crew[i];if(c.on)return;if(c.el.style.opacity==='0'||c.el.style.opacity===''){c.x=x+(Math.random()-.5)*120;c.y=y+60}c.on=true;c.tx=x;c.ty=y;c.tl=tl}
 requestAnimationFrame(frame);
 }
+/* video plays only while you can see it */
+const vid=document.querySelector('.phone video');
+if(vid&&'IntersectionObserver' in window){new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting)vid.play().catch(()=>{});else vid.pause()}),{threshold:.2}).observe(vid)}
+/* live card pauses when off screen */
 </script>
 </body>
 </html>
