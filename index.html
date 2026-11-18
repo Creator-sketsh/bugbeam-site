@@ -134,6 +134,13 @@ details{border-radius:16px;background:var(--card);border:1px solid var(--line);p
 summary{cursor:pointer;list-style:none;padding:18px 0;font:600 16.5px Inter;display:flex;justify-content:space-between;gap:16px}
 summary::-webkit-details-marker{display:none}summary::after{content:"+";color:var(--cyan);font:500 22px Inter;line-height:1}
 details[open] summary::after{content:"–"}details p{margin:0 0 18px;color:var(--mut)}
+.fdr{display:flex;gap:16px;align-items:center;margin:0 0 18px}
+.fdr img{width:64px;height:64px;border-radius:50%;flex:0 0 64px;border:1px solid var(--line);background:#0e1626}
+.fdr .fx{color:var(--mut);font-size:15px;line-height:1.5}
+.fdr .fx b{color:var(--txt)}
+.fdr a{color:var(--cyan);text-decoration:none;font-weight:600}
+.guarantee{max-width:780px;margin:22px auto 0;text-align:center;color:var(--mut);font-size:15px}
+.guarantee b{color:var(--txt)}
 footer{padding:40px 0 120px;border-top:1px solid var(--line);color:var(--dim);font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
 /* ===== the building effect ===== */
@@ -352,6 +359,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
   </table>
  </div>
  <p class="paynote" data-type>Payment in USDT (TRC20). Each order gets its own exact amount, so we know it's yours the moment it arrives.</p>
+ <p class="guarantee" data-type><b>Our promise:</b> if our agents find no real bugs on your site, or the report is late, you get a full refund. No arguing.</p>
 </div></section>
 
 <section id="order"><div class="wrap"><div class="order bx">
@@ -371,7 +379,9 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
  <div class="center"><div class="eyebrow" data-type>FAQ</div><h2 class="h2" data-type>Questions founders ask us.</h2></div>
  <div class="faq">
   <details class="bx"><summary>Do you need access to my code or my accounts?</summary><p>No. We test only the public pages of your site, the way a visitor sees them. We don't sign up, buy anything or send your forms with real data.</p></details>
-  <details class="bx"><summary>Who is behind Bugbeam?</summary><p>Bugbeam is run by Elio Bathani, a QA tester who has tested and reported bugs on many websites. AI agents do the testing, and every report follows real QA standards.</p></details>
+  <details class="bx"><summary>Will the test slow down or break my site?</summary><p>No. Our agents browse your pages like a handful of normal visitors — a few at a time, gently. We don't run attacks, floods or anything that could harm your site or your data.</p></details>
+  <details class="bx"><summary>What do you do with my data?</summary><p>We keep only your site address, your email and the bugs we found — nothing else. We never sell or share it, and if you reply "DELETE" we erase everything we hold about you.</p></details>
+  <details class="bx"><summary>Who is behind Bugbeam?</summary><div class="fdr"><img src="elio.webp" alt="Elio Bathani" width="64" height="64"><div class="fx"><b>Elio Bathani</b> — a QA tester who has tested and reported bugs on more than ten real websites, checking each fix after. He built Bugbeam so new founders get that same QA eye on their launch. <a href="https://www.linkedin.com/in/elio-bathani-454a24233/" target="_blank" rel="noopener">See his LinkedIn →</a></div></div><p>AI agents do the testing around the clock, and every report follows real QA standards — so you get a professional review at a price a launch can afford.</p></details>
   <details class="bx"><summary>How do I pay?</summary><p>In USDT on the TRON network (TRC20). After you order, you get your own exact amount (for example 19.07 USDT). Our agents see the payment and start your test automatically.</p></details>
   <details class="bx"><summary>What if a bug in the report isn't real?</summary><p>Every bug is checked twice before you see it. If one still turns out to be wrong, just reply and tell us. We fix the report and our agents learn from it.</p></details>
   <details class="bx"><summary>How fast do I get the report?</summary><p>Within 24 hours of your payment, usually sooner. The free re-check comes 7 days later, or sooner if you reply "fixed".</p></details>
