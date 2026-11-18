@@ -392,10 +392,14 @@ document.getElementById('f').addEventListener('submit',async e=>{e.preventDefaul
  const body=`Website: https://${site}\nPlan: ${plan}\nEmail: ${email}`;
  const mailto=()=>{location.href=`mailto:support@bugbeam.dev?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`};
  btn.disabled=true;btn.textContent='Sending…';
- try{const r=await fetch('https://formsubmit.co/ajax/support@bugbeam.dev',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
-   body:JSON.stringify({_subject:subject,_replyto:email,_template:'table',_captcha:'false',Website:'https://'+site,Plan:plan,Email:email,message:body})});
-  const j=await r.json().catch(()=>({}));
-  if(r.ok&&String(j.success)==='true'){m.style.display='block';m.innerHTML=`✓ Order received for <b>${esc(site)}</b>. Check <b>${esc(email)}</b> in a few minutes for the payment details (look in spam too).`;
+ const post=async(url,data)=>{const ac=new AbortController(),tm=setTimeout(()=>ac.abort(),8000);
+  try{const r=await fetch(url,{signal:ac.signal,method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
+   const j=await r.json().catch(()=>({}));return r.ok&&String(j.success)==='true'}catch(e){return false}finally{clearTimeout(tm)}};
+ const fields={Website:'https://'+site,Plan:plan,Email:email,message:body};
+ try{
+  let ok=await post('https://api.web3forms.com/submit',{access_key:'67c5140f-3e60-44e0-ae5b-4054ee807eb8',subject,from_name:'Bugbeam website',email,replyto:email,botcheck:'',...fields});
+  if(!ok)ok=await post('https://formsubmit.co/ajax/support@bugbeam.dev',{_subject:subject,_replyto:email,_template:'table',_captcha:'false',...fields});
+  if(ok){m.style.display='block';m.innerHTML=`✓ Order received for <b>${esc(site)}</b>. Check <b>${esc(email)}</b> in a few minutes for the payment details (look in spam too).`;
    document.getElementById('f').reset();btn.textContent='Order sent ✓';return}
   throw new Error('form')}
  catch(err){m.style.display='block';m.innerHTML=`Your email app is opening with the order ready. If nothing opens, email <b>support@bugbeam.dev</b> with the subject <b>${esc(subject)}</b>.`;mailto()}
