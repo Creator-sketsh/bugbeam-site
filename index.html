@@ -145,6 +145,11 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 #hud{position:fixed;left:16px;bottom:16px;z-index:55;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:rgba(8,13,28,.85);backdrop-filter:blur(10px);border:1px solid var(--line);font:700 12px 'JetBrains Mono';color:var(--mut)}
 #hud .bar{width:90px;height:4px;border-radius:4px;background:rgba(148,163,184,.2);overflow:hidden}#hud .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3B82F6,#38BDF8)}
 #hud .avs{display:flex}#hud .avs i{width:14px;height:14px;border-radius:50%;border:2px solid #0A1022;margin-left:-5px}
+.watch{display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center}
+.phone{width:300px;aspect-ratio:9/16;border-radius:34px;padding:9px;background:linear-gradient(160deg,#1E293B,#0B1224);border:1px solid rgba(56,189,248,.35);box-shadow:0 40px 100px -30px rgba(37,99,235,.8)}
+.phone video{width:100%;height:100%;object-fit:cover;border-radius:26px;display:block;background:#04060D}
+@media (max-width:980px){.watch{grid-template-columns:1fr;justify-items:center;text-align:center}.watch .lead{margin:0 auto}.watch .ctas{justify-content:center}}
+@media (max-width:560px){.phone{width:min(280px,82vw)}}
 /* responsive */
 @media (max-width:980px){
  .hero .grid,.rep,.order{grid-template-columns:1fr}.agents{grid-template-columns:repeat(2,1fr)}.steps,.nums{grid-template-columns:repeat(2,1fr)}.prices{grid-template-columns:1fr;max-width:460px;margin-left:auto;margin-right:auto}
@@ -161,7 +166,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 
 <nav>
  <a class="logo" href="#top"><svg width="30" height="30" viewBox="0 0 48 48"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#38BDF8" stop-opacity=".9"/><stop offset="1" stop-color="#38BDF8" stop-opacity="0"/></linearGradient></defs><path d="M24 1 L8 44 H40 Z" fill="url(#lg1)" opacity=".55"/><circle cx="24" cy="3" r="2.6" fill="#38BDF8"/><g stroke="#fff" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="24" cy="31.7" rx="5.4" ry="7.2"/><circle cx="24" cy="22.7" r="3.06"/><path d="M24 26.3V38.9"/><path d="M18.6 29H14.1M29.4 29H33.9M19.05 34.4L15.0 37.55M28.95 34.4L33.0 37.55M19.05 25.4L15.45 22.25M28.95 25.4L32.55 22.25"/></g></svg>Bug<b>beam</b></a>
- <div class="links"><a href="#crew-sec">The agents</a><a href="#how">How it works</a><a href="#report">The report</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
+ <div class="links"><a href="#watch">Watch</a><a href="#crew-sec">The agents</a><a href="#how">How it works</a><a href="#report">The report</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
  <a class="btn pri" href="#order">Test my site</a>
 </nav>
 
@@ -185,6 +190,14 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 </div>
 <div class="hint"><span><span class="mouse"></span>Scroll and watch our agents build this page</span></div>
 </header>
+
+<section id="watch" style="padding-top:40px"><div class="wrap watch">
+ <div><div class="eyebrow" data-type>Watch it work</div>
+ <h2 class="h2" data-type>23 seconds. 11 agents. One clean launch.</h2>
+ <p class="lead" data-type>See our agents build a site, hunt its bugs, check every one twice, and send the report to the founder.</p>
+ <div class="ctas" style="margin-top:26px"><a class="btn pri" href="#order">Test my site for $19 →</a></div></div>
+ <div class="phone bx"><video src="bugbeam-building-live-v2.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Bugbeam agents building and testing a website"></video></div>
+</div></section>
 
 <section id="crew-sec"><div class="wrap">
  <div class="center"><div class="eyebrow" data-type>The crew</div>
