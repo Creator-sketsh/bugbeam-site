@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Bugbeam: We find the bugs before your users do</title>
 <meta name="description" content="11 AI agents test your new website on desktop, tablet and phone, check every bug twice, and send you a clear report in 24 hours.">
+<link rel="canonical" href="https://bugbeam.dev/">
+<meta property="og:type" content="website"><meta property="og:url" content="https://bugbeam.dev/">
+<meta property="og:title" content="Bugbeam: We find the bugs before your users do">
+<meta property="og:description" content="11 AI agents test your new website on desktop, tablet and phone, check every bug twice, and send you a clear report in 24 hours.">
+<meta property="og:image" content="https://bugbeam.dev/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://bugbeam.dev/og.png">
+<meta name="theme-color" content="#04060D">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%2304060D'/%3E%3Cpath d='M24 4 L10 44 H38 Z' fill='%2338BDF8' opacity='.35'/%3E%3Ccircle cx='24' cy='6' r='3' fill='%2338BDF8'/%3E%3Cellipse cx='24' cy='31' rx='6' ry='8' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
@@ -140,8 +147,14 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 .ghost b{position:absolute;left:6px;top:-17px;font:700 10px 'JetBrains Mono';color:var(--cyan);white-space:nowrap}
 #crew{position:fixed;inset:0;pointer-events:none;z-index:60}
 .cur{position:absolute;left:0;top:0;opacity:0;transition:opacity .25s;will-change:transform,opacity}
-.cur .lab{position:absolute;left:14px;top:15px;padding:3px 8px;border-radius:6px;font:700 11px Inter;color:#04121F;white-space:nowrap;box-shadow:0 4px 12px -2px rgba(0,0,0,.5)}
-.cur .tool{position:absolute;left:-20px;top:-19px;font-size:19px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))}
+.cur svg{width:26px;height:28px;filter:drop-shadow(0 0 6px var(--c)) drop-shadow(0 2px 3px rgba(0,0,0,.6))}
+.trail{position:absolute;left:0;top:0;width:8px;height:8px;border-radius:50%;opacity:0;pointer-events:none;will-change:transform,opacity;transition:opacity .25s}
+.built{position:absolute;padding:5px 11px;border-radius:999px;font:700 11.5px Inter;color:#04121F;white-space:nowrap;pointer-events:none;z-index:5;animation:built 1.8s ease forwards}
+@keyframes built{0%{opacity:0;transform:translateY(8px) scale(.8)}15%{opacity:1;transform:translateY(0) scale(1.05)}25%{transform:scale(1)}75%{opacity:1}100%{opacity:0;transform:translateY(-10px)}}
+.js .bx.flash{animation:flash 1s ease}
+@keyframes flash{0%{box-shadow:0 0 0 2px rgba(56,189,248,.9),0 0 40px -4px rgba(56,189,248,.7)}100%{box-shadow:0 0 0 2px rgba(56,189,248,0),0 0 40px -4px rgba(56,189,248,0)}}
+.cur .lab{position:absolute;left:20px;top:21px;padding:4px 11px;border-radius:999px;font:700 12px Inter;color:#04121F;white-space:nowrap;box-shadow:0 0 18px -3px var(--c),0 4px 12px -2px rgba(0,0,0,.5)}
+.cur .tool{position:absolute;left:-22px;top:-22px;font-size:21px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))}
 #hud{position:fixed;left:16px;bottom:16px;z-index:55;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:rgba(8,13,28,.94);border:1px solid var(--line);font:700 12px 'JetBrains Mono';color:var(--mut)}
 #hud .bar{width:90px;height:4px;border-radius:4px;background:rgba(148,163,184,.2);overflow:hidden}#hud .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3B82F6,#38BDF8)}
 #hud .avs{display:flex}#hud .avs i{width:14px;height:14px;border-radius:50%;border:2px solid #0A1022;margin-left:-5px}
@@ -204,7 +217,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
  </div>
  <div style="position:relative">
   <div class="live bx" data-hero id="live">
-   <div class="top"><div><div class="mono" style="font-size:10.5px;letter-spacing:.16em;color:var(--cyan);font-weight:700">LIVE TEST</div><div style="font:700 22px 'Space Grotesk'" id="lvsite">your-launch.app</div><div class="site"><span class="dot"></span><span id="lvstate">Testing on phone…</span></div></div><div class="ring" id="lvring"><span id="lvscore">–</span></div></div>
+   <div class="top"><div><div class="mono" style="font-size:10.5px;letter-spacing:.16em;color:var(--cyan);font-weight:700">LIVE TEST · EXAMPLE</div><div style="font:700 22px 'Space Grotesk'" id="lvsite">your-launch.app</div><div class="site"><span class="dot"></span><span id="lvstate">Testing on phone…</span></div></div><div class="ring" id="lvring"><span id="lvscore">–</span></div></div>
    <div id="lvbugs"></div>
    <div class="log" id="lvlog"></div>
   </div>
@@ -274,6 +287,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
  <div class="eyebrow" data-type>The report</div>
  <h2 class="h2" data-type>A report your developer can use right away.</h2>
  <p class="lead" data-type>Every bug has a screenshot, the exact steps, and how serious it is. Fix the top ones first.</p>
+ <div class="ctas" style="margin-top:22px"><a class="btn sec" href="sample-report.pdf" target="_blank" rel="noopener">📄 Open a full sample report (PDF)</a></div>
  <div class="rep">
   <div class="doc bx">
    <div class="hd"><div><small>BUG REPORT · SAMPLE</small><h3>your-launch.app</h3><div style="font-size:12px;color:#94A3B8">15 pages · desktop, tablet, phone</div></div><div class="ring" style="--v:74"><span>74</span></div></div>
@@ -333,13 +347,15 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 </div></section>
 
 <section id="order"><div class="wrap"><div class="order bx">
- <div><div class="eyebrow">Order</div><h2 class="h2" data-type>Get your site tested.</h2><p class="lead" data-type>Fill this in and your email app opens with the order ready. Send it, and the payment details come back to you automatically.</p></div>
+ <div><div class="eyebrow">Order</div><h2 class="h2" data-type>Get your site tested.</h2><p class="lead" data-type>Fill this in and click the button. Our agents reply to your email within minutes with the payment details, then your test starts.</p></div>
  <form id="f">
   <label for="site">Your website</label><input id="site" placeholder="yoursite.com" required autocomplete="url">
+  <label for="cemail">Your email (we send the report here)</label><input id="cemail" type="email" placeholder="you@yoursite.com" required autocomplete="email">
+  <input id="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
   <label for="plan">What you want</label><select id="plan"><option>Full test ($19)</option><option>Bugbeam Care ($69 for 3 months)</option><option>Free quick check</option></select>
-  <button class="btn pri" type="submit" style="margin-top:6px">Create my order email →</button>
+  <button class="btn pri" id="sendbtn" type="submit" style="margin-top:6px">Send my order →</button>
   <div id="ordermsg"></div>
-  <div style="font-size:13px;color:var(--mut)">Or email <a href="mailto:elio@bugbeam.dev" style="color:var(--cyan)">elio@bugbeam.dev</a> with the subject <b>Bugbeam order: yoursite.com</b></div>
+  <div style="font-size:13px;color:var(--mut)">Or email <a href="mailto:support@bugbeam.dev" style="color:var(--cyan)">support@bugbeam.dev</a> with the subject <b>Bugbeam order: yoursite.com</b></div>
  </form>
 </div></div></section>
 
@@ -358,21 +374,32 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 <section id="final" style="padding-top:30px"><div class="wrap"><div class="final bx">
  <h2 class="h2" data-type>Your launch deserves a second pair of eyes.</h2>
  <p class="lead" data-type>Eleven, actually. Send us your link today and get your report within 24 hours.</p>
- <div class="ctas" style="justify-content:center;margin-top:26px"><a class="btn pri" href="#order">Test my site for $19 →</a><a class="btn sec" href="mailto:elio@bugbeam.dev">Email us</a></div>
+ <div class="ctas" style="justify-content:center;margin-top:26px"><a class="btn pri" href="#order">Test my site for $19 →</a><a class="btn sec" href="mailto:support@bugbeam.dev">Email us</a></div>
 </div></div></section>
 
-<footer><div class="wrap"><a class="logo" href="#top" style="font-size:18px">Bug<b>beam</b></a><span>QA testing for new launches · <a href="mailto:elio@bugbeam.dev" style="color:var(--cyan)">elio@bugbeam.dev</a></span><span>© 2026 Bugbeam</span></div></footer>
+<footer><div class="wrap"><a class="logo" href="#top" style="font-size:18px">Bug<b>beam</b></a><span>QA testing for new launches · <a href="mailto:support@bugbeam.dev" style="color:var(--cyan)">support@bugbeam.dev</a></span><span><a href="privacy.html" style="color:var(--mut)">Privacy</a> · <a href="terms.html" style="color:var(--mut)">Terms</a> · © 2026 Bugbeam</span></div></footer>
 
 <div id="hud"><div class="avs" id="hudav"></div><span id="hudtxt">building this page</span><div class="bar"><i id="hudbar"></i></div></div>
 
 <script>
 /* ---------- order form ---------- */
 document.querySelectorAll('[data-plan]').forEach(b=>b.addEventListener('click',()=>{document.getElementById('plan').value=b.dataset.plan}));
-document.getElementById('f').addEventListener('submit',e=>{e.preventDefault();
- const site=document.getElementById('site').value.trim().replace(/^https?:\/\//,'').replace(/\/$/,'');const plan=document.getElementById('plan').value;if(!site)return;
- const subject=`Bugbeam order: ${site}`,body=`Hi Bugbeam,\n\nI'd like: ${plan}\nWebsite: https://${site}\n\nThanks!`;
- const m=document.getElementById('ordermsg');m.style.display='block';m.innerHTML=`Your email app should open now. If it doesn't, email <b>elio@bugbeam.dev</b> with the subject <b>${subject.replace(/</g,'&lt;')}</b>.`;
- location.href=`mailto:elio@bugbeam.dev?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`});
+document.getElementById('f').addEventListener('submit',async e=>{e.preventDefault();
+ const site=document.getElementById('site').value.trim().replace(/^https?:\/\//,'').replace(/\/$/,''),plan=document.getElementById('plan').value,
+   email=document.getElementById('cemail').value.trim(),m=document.getElementById('ordermsg'),btn=document.getElementById('sendbtn');
+ if(!site||!email||document.getElementById('hp').value)return;
+ const subject=`Bugbeam order: ${site}`,esc=x=>x.replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+ const body=`Website: https://${site}\nPlan: ${plan}\nEmail: ${email}`;
+ const mailto=()=>{location.href=`mailto:support@bugbeam.dev?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`};
+ btn.disabled=true;btn.textContent='Sending…';
+ try{const r=await fetch('https://formsubmit.co/ajax/support@bugbeam.dev',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+   body:JSON.stringify({_subject:subject,_replyto:email,_template:'table',_captcha:'false',Website:'https://'+site,Plan:plan,Email:email,message:body})});
+  const j=await r.json().catch(()=>({}));
+  if(r.ok&&String(j.success)==='true'){m.style.display='block';m.innerHTML=`✓ Order received for <b>${esc(site)}</b>. Check <b>${esc(email)}</b> in a few minutes for the payment details (look in spam too).`;
+   document.getElementById('f').reset();btn.textContent='Order sent ✓';return}
+  throw new Error('form')}
+ catch(err){m.style.display='block';m.innerHTML=`Your email app is opening with the order ready. If nothing opens, email <b>support@bugbeam.dev</b> with the subject <b>${esc(subject)}</b>.`;mailto()}
+ finally{setTimeout(()=>{btn.disabled=false;if(btn.textContent!=='Order sent ✓')btn.textContent='Send my order →'},1500)}});
 
 /* ---------- live test card in the hero (loops) ---------- */
 const LV={sites:['your-launch.app','new-saas.io','shiplist.co'],bugs:[['h','Buy button dead on phone'],['m','Form accepts empty email'],['l','Image missing alt text'],['m','Menu covers the logo on tablet'],['l','Text too small on phone']],
@@ -419,32 +446,37 @@ function measure(){const sy=scrollY,rows={};
  Object.values(rows).forEach(a=>a.sort((x,y)=>x.left-y.left).forEach((s,k)=>s.k=k));
  steps.forEach(s=>{if(s.ghost){const G=s.ghost;G.style.left=s.left+scrollX+'px';G.style.top=s.top+'px';G.style.width=s.w+'px';G.style.height=s.h+'px';G.firstChild.textContent=`${Math.round(s.w)} × ${Math.round(s.h)}`}});
  docH=document.documentElement.scrollHeight;dirty=true}
-let docH=0,dirty=true,mt=null;
+let docH=0,dirty=true,mt=null,lastBadge=0;
 const remeasure=()=>{clearTimeout(mt);mt=setTimeout(measure,150)};
 measure();addEventListener('resize',remeasure);addEventListener('load',measure);if(document.fonts)document.fonts.ready.then(measure);
 if(window.ResizeObserver)new ResizeObserver(remeasure).observe(document.body);
 addEventListener('scroll',()=>{dirty=true},{passive:true});
 // the agents
-const crew=AG.map(a=>{const d=document.createElement('div');d.className='cur';d.innerHTML=`<svg width="20" height="22" viewBox="0 0 16 18"><path d="M1 1l13 7-6 1.5L5 16z" fill="${a[1]}" stroke="#04060D" stroke-width="1.2"/></svg><span class="lab" style="background:${a[1]}">${a[0]}</span><span class="tool"></span>`;document.getElementById('crew').appendChild(d);
- return{el:d,tool:d.querySelector('.tool'),x:-200,y:-200,tx:0,ty:0,on:false,was:false,tl:'',last:''}});
+const crewEl=document.getElementById('crew');
+const crew=AG.map(a=>{const tr=[0,1,2,3].map(k=>{const t=document.createElement('div');t.className='trail';t.style.background=a[1];t.style.boxShadow=`0 0 10px ${a[1]}`;crewEl.appendChild(t);return{el:t,x:-200,y:-200,k}});
+ const d=document.createElement('div');d.className='cur';d.style.setProperty('--c',a[1]);d.innerHTML=`<svg viewBox="0 0 16 18"><path d="M1 1l13 7-6 1.5L5 16z" fill="${a[1]}" stroke="#04060D" stroke-width="1.2"/></svg><span class="lab" style="background:${a[1]}">${a[0]}</span><span class="tool"></span>`;document.getElementById('crew').appendChild(d);
+ return{seen:0,el:d,tr,name:a[0],color:a[1],tool:d.querySelector('.tool'),x:-200,y:-200,tx:0,ty:0,on:false,was:false,tl:'',last:''}});
 function use(i,x,y,tl){const c=crew[i];if(c.on)return;if(!c.was){c.x=x+(Math.random()-.5)*120;c.y=y+60}c.on=true;c.tx=x;c.ty=y;c.tl=tl}
 const hud=document.getElementById('hudtxt'),hbar=document.getElementById('hudbar');let lastPct=-1;
 const t0=performance.now(),HERO_END=7;
 function frame(now){
  const time=(now-t0)/1000,vh=innerHeight,sy=scrollY;
  const anyActive=steps.some(s=>s.e>0&&s.e<1);
- if(!dirty&&!anyActive&&time>HERO_END){crew.forEach(c=>{if(c.was){c.el.style.opacity=0;c.was=false}});requestAnimationFrame(frame);return}
+ if(!dirty&&!anyActive&&time>HERO_END&&!crew.some(c=>c.was)){crew.forEach(c=>{if(c.was){c.el.style.opacity=0;c.was=false}});requestAnimationFrame(frame);return}
  dirty=false;crew.forEach(c=>{c.on=false});
  const atBottom=sy+vh>=docH-6;let done=0,heroIdx=0;
  for(const s of steps){
   const top=s.top-sy;let e;
   if(s.hero){e=clamp((time-.25-heroIdx*.32)/(s.box?1.1:.8));heroIdx++}
-  else{e=clamp((vh*.97-top-s.k*55)/(vh*.38));if(atBottom&&top<vh)s.forced=true;if(s.forced)e=Math.max(e,Math.min(1,(s.e<0?0:s.e)+.03))}
+  else{e=clamp((vh*.86-top-s.k*45)/(vh*.42));if(atBottom&&top<vh)s.forced=true;if(s.forced)e=Math.max(e,Math.min(1,(s.e<0?0:s.e)+.03))}
   if(e>=1)done++;
   if(e===s.e)continue;
   const prev=s.e;s.e=e;
   if(s.box){const o=clamp(e/.28),g=ease(clamp((e-.22)/.3)),p=clamp((e-.5)/.2);
-   if(e>=1){if(prev<1){s.el.classList.add('done');s.el.style.removeProperty('--g');s.el.style.removeProperty('--p')}}
+   if(e>=1){if(prev<1){s.el.classList.add('done');s.el.style.removeProperty('--g');s.el.style.removeProperty('--p');
+     if(prev>0&&top<vh&&top+s.h>0&&now-lastBadge>380){lastBadge=now;s.el.classList.remove('flash');void s.el.offsetWidth;s.el.classList.add('flash');
+      const who=crew[s.ag[2]],b=document.createElement('div');b.className='built';b.textContent='✓ built by '+who.name;b.style.background=who.color;b.style.boxShadow=`0 0 20px -4px ${who.color}`;
+      b.style.left=Math.max(8,Math.min(innerWidth-170,s.left+s.w-150))+'px';b.style.top=(s.top-14)+'px';document.getElementById('ghosts').appendChild(b);setTimeout(()=>b.remove(),1900)}}}
    else{s.el.classList.remove('done');s.el.style.setProperty('--g',g.toFixed(3));s.el.style.setProperty('--p',p.toFixed(3))}
    const G=s.ghost;if(e>0&&e<.75){G.style.display='block';G.style.clipPath=`inset(0 ${(1-o)*100}% ${(1-o)*100}% 0)`;G.style.opacity=1-clamp((e-.55)/.2)}else if(G.style.display!=='none')G.style.display='none';
    if(e>0&&e<1&&top<vh&&top+s.h>0){const [a,b]=s.ag;
@@ -459,8 +491,11 @@ function frame(now){
    if(k>0&&k<1&&N){const tt=tl.top-sy;if(tt<vh&&tt>-40){const lines=Math.max(1,Math.round(tl.h/28)),pos=k*lines,line=Math.min(lines-1,Math.floor(pos));
      use(s.ag[2],tl.left+tl.w*(pos-line)+4,tt+tl.h*(line+1)/lines-2,'⌨️')}}});
  }
- crew.forEach(c=>{if(c.on){c.x+=(c.tx-c.x)*.3;c.y+=(c.ty-c.y)*.3;c.el.style.transform=`translate3d(${c.x}px,${c.y}px,0)`;if(c.tl!==c.last){c.tool.textContent=c.tl;c.last=c.tl}if(!c.was){c.el.style.opacity=1;c.was=true}dirty=true}
-  else if(c.was){c.el.style.opacity=0;c.was=false}});
+ crew.forEach(c=>{if(c.on){c.seen=now;c.x+=(c.tx-c.x)*.3;c.y+=(c.ty-c.y)*.3;c.el.style.transform=`translate3d(${c.x}px,${c.y}px,0)`;
+   let px=c.x,py=c.y;c.tr.forEach(t=>{t.x+=(px-t.x)*.45;t.y+=(py-t.y)*.45;t.el.style.transform=`translate3d(${t.x-4}px,${t.y-4}px,0) scale(${1-t.k*.2})`;t.el.style.opacity=(.55-t.k*.12).toFixed(2);px=t.x;py=t.y});
+   if(c.tl!==c.last){c.tool.textContent=c.tl;c.last=c.tl}if(!c.was){c.el.style.opacity=1;c.was=true;c.tr.forEach(t=>{t.x=c.x;t.y=c.y})}dirty=true}
+  else if(c.was&&now-c.seen<900){dirty=true;c.tr.forEach(t=>{t.x+=(c.x-t.x)*.45;t.y+=(c.y-t.y)*.45;t.el.style.transform=`translate3d(${t.x-4}px,${t.y-4}px,0) scale(${1-t.k*.2})`})}
+  else if(c.was){c.el.style.opacity=0;c.tr.forEach(t=>t.el.style.opacity=0);c.was=false}});
  const pct=Math.round(done/steps.length*100);
  if(pct!==lastPct){hbar.style.width=pct+'%';hud.textContent=pct<100?`11 agents · building this page · ${pct}%`:'✓ page built · 0 bugs found';lastPct=pct}
  requestAnimationFrame(frame)}
