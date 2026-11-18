@@ -187,6 +187,9 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 .final .lead{margin:0 auto}
 @media (max-width:980px){.pains{grid-template-columns:repeat(2,1fr)}.vs{grid-template-columns:1fr}}
 @media (max-width:560px){.pains{grid-template-columns:1fr}.cmp{padding:16px 10px 4px}.cmp table{font-size:12.5px}.cmp th,.cmp td{padding:10px 5px}.cmp th{font-size:11px}.cmp th b{font-size:16px}.final{padding:40px 18px}}
+#tourskip{position:fixed;right:16px;bottom:16px;z-index:70;padding:10px 16px;border-radius:12px;border:1px solid rgba(56,189,248,.45);background:rgba(8,13,28,.94);color:#E7EDF8;font:700 13px Inter;cursor:pointer;opacity:0;transform:translateY(10px);transition:.3s}
+#tourskip.on{opacity:1;transform:none}#tourskip:hover{border-color:#38BDF8}
+@media (max-width:560px){#tourskip{bottom:70px}}
 /* responsive */
 @media (max-width:980px){
  .hero .grid,.rep,.order{grid-template-columns:1fr}.agents{grid-template-columns:repeat(2,1fr)}.steps,.nums{grid-template-columns:repeat(2,1fr)}.prices{grid-template-columns:1fr;max-width:460px;margin-left:auto;margin-right:auto}
@@ -441,7 +444,7 @@ document.querySelectorAll('.bx,[data-type]').forEach(el=>{
  st.typed=leaves.map(l=>Object.assign({el:l,n:-1},split(l)));
  if(st.box){const g=document.createElement('div');g.className='ghost';g.innerHTML='<b></b>';document.getElementById('ghosts').appendChild(g);st.ghost=g}
  steps.push(st)});
-steps.forEach((s,i)=>{s.ag=[(i*3)%11,(i*3+1)%11,(i*3+2)%11]});
+steps.forEach((s,i)=>{s.ag=[(i*3)%11,(i*3+1)%11,(i*3+2)%11];s.chars=s.typed.reduce((n,t)=>n+t.chars.length,0)});
 // measure once (and again only when the layout really changes)
 function measure(){const sy=scrollY,rows={};
  steps.forEach(s=>{const r=s.el.getBoundingClientRect();s.top=r.top+sy;s.left=r.left;s.w=r.width;s.h=r.height;
@@ -450,7 +453,7 @@ function measure(){const sy=scrollY,rows={};
  Object.values(rows).forEach(a=>a.sort((x,y)=>x.left-y.left).forEach((s,k)=>s.k=k));
  steps.forEach(s=>{if(s.ghost){const G=s.ghost;G.style.left=s.left+scrollX+'px';G.style.top=s.top+'px';G.style.width=s.w+'px';G.style.height=s.h+'px';G.firstChild.textContent=`${Math.round(s.w)} × ${Math.round(s.h)}`}});
  docH=document.documentElement.scrollHeight;dirty=true}
-let docH=0,dirty=true,mt=null,lastBadge=0;
+let docH=0,dirty=true,mt=null,lastBadge=0,queueT=0;
 const remeasure=()=>{clearTimeout(mt);mt=setTimeout(measure,150)};
 measure();addEventListener('resize',remeasure);addEventListener('load',measure);if(document.fonts)document.fonts.ready.then(measure);
 if(window.ResizeObserver)new ResizeObserver(remeasure).observe(document.body);
@@ -460,19 +463,25 @@ const crewEl=document.getElementById('crew');
 const crew=AG.map(a=>{const tr=[0,1,2,3].map(k=>{const t=document.createElement('div');t.className='trail';t.style.background=a[1];t.style.boxShadow=`0 0 10px ${a[1]}`;crewEl.appendChild(t);return{el:t,x:-200,y:-200,k}});
  const d=document.createElement('div');d.className='cur';d.style.setProperty('--c',a[1]);d.innerHTML=`<svg viewBox="0 0 16 18"><path d="M1 1l13 7-6 1.5L5 16z" fill="${a[1]}" stroke="#04060D" stroke-width="1.2"/></svg><span class="lab" style="background:${a[1]}">${a[0]}</span><span class="tool"></span>`;document.getElementById('crew').appendChild(d);
  return{seen:0,el:d,tr,name:a[0],color:a[1],tool:d.querySelector('.tool'),x:-200,y:-200,tx:0,ty:0,on:false,was:false,tl:'',last:''}});
-function use(i,x,y,tl){const c=crew[i];if(c.on)return;if(!c.was){c.x=x+(Math.random()-.5)*120;c.y=y+60}c.on=true;c.tx=x;c.ty=y;c.tl=tl}
+function use(i,x,y,tl){let c=crew[i];if(c.on){c=crew.find(z=>!z.on&&z.was)||crew.find(z=>!z.on);if(!c)return}if(!c.was){c.x=x+(Math.random()-.5)*120;c.y=y+60}c.on=true;c.tx=x;c.ty=y;c.tl=tl}
 const hud=document.getElementById('hudtxt'),hbar=document.getElementById('hudbar');let lastPct=-1;
 const t0=performance.now(),HERO_END=7;
 function frame(now){
  const time=(now-t0)/1000,vh=innerHeight,sy=scrollY;
- const anyActive=steps.some(s=>s.e>0&&s.e<1);
+ const anyActive=steps.some(s=>(s.e>0&&s.e<1)||(s.t0>0&&s.e<1));
  if(!dirty&&!anyActive&&time>HERO_END&&!crew.some(c=>c.was)){crew.forEach(c=>{if(c.was){c.el.style.opacity=0;c.was=false}});requestAnimationFrame(frame);return}
- dirty=false;crew.forEach(c=>{c.on=false;c.patrol=false});
+ dirty=false;crew.forEach(c=>{c.on=false});
  const atBottom=sy+vh>=docH-6;let done=0,heroIdx=0;
  for(const s of steps){
   const top=s.top-sy;let e;
   if(s.hero){e=clamp((time-.25-heroIdx*.32)/(s.box?1.1:.8));heroIdx++}
-  else{e=clamp((vh*.86-top-s.k*45)/(vh*.42));if(atBottom&&top<vh)s.forced=true;if(s.forced)e=Math.max(e,Math.min(1,(s.e<0?0:s.e)+.03))}
+  else{
+   if(s.t0==null){
+    if(top+s.h<=vh*.02){s.t0=-1;e=1}                       // already above the screen (jumped past it): just show it
+    else if(top<vh*.94){queueT=Math.max(queueT,now);s.t0=queueT;queueT+=s.box?170:110;e=0}   // on screen: queue it, top to bottom
+    else e=0}
+   else if(s.t0<0)e=1;
+   else{const dur=s.box?1500:Math.min(1500,Math.max(450,s.chars*22));e=clamp((now-s.t0)/dur)}}
   if(e>=1)done++;
   if(e===s.e)continue;
   const prev=s.e;s.e=e;
@@ -495,24 +504,40 @@ function frame(now){
    if(k>0&&k<1&&N){const tt=tl.top-sy;if(tt<vh&&tt>-40){const lines=Math.max(1,Math.round(tl.h/28)),pos=k*lines,line=Math.min(lines-1,Math.floor(pos));
      use(s.ag[2],tl.left+tl.w*(pos-line)+4,tt+tl.h*(line+1)/lines-2,'⌨️')}}});
  }
- // patrol: free agents check finished parts all over the screen
- const cand=steps.filter(s=>s.e>.35&&s.top-sy+s.h>vh*.16&&s.top-sy<vh*.88&&s.w>40);
- const maxP=Math.min(cand.length,innerWidth<700?4:7);let pat=0;const taken=new Set(crew.filter(c=>c.on).map(c=>c.pt));
- const ok=p=>p&&p.e>.35&&p.top-sy+p.h>vh*.04&&p.top-sy<vh*.92;
- if(cand.length)crew.forEach(c=>{if(c.on||pat>=maxP)return;pat++;
-  if(!ok(c.pt)||now>c.ptEnd||taken.has(c.pt)){const free=cand.filter(p=>!taken.has(p));const pool=free.length?free:cand;
-   c.pt=pool[Math.floor(Math.random()*pool.length)];c.ptEnd=now+1600+Math.random()*2400;c.px=Math.random();c.py=Math.random()}
-  taken.add(c.pt);const p=c.pt,vt=Math.max(p.top-sy,vh*.13),vb=Math.min(p.top-sy+p.h,vh*.9);
-  c.tx=p.left+p.w*(.08+.84*c.px);c.ty=vt+(vb-vt)*(.15+.7*c.py);c.tl='🔍';c.on=true;c.patrol=true});
- crew.forEach(c=>{if(c.on){c.seen=now;const sp=c.patrol?.06:.3;c.x+=(c.tx-c.x)*sp;c.y+=(c.ty-c.y)*sp;c.el.style.transform=`translate3d(${c.x}px,${c.y}px,0)`;
+ crew.forEach(c=>{if(c.on){c.seen=now;const sp=.3;c.x+=(c.tx-c.x)*sp;c.y+=(c.ty-c.y)*sp;c.el.style.transform=`translate3d(${c.x}px,${c.y}px,0)`;
    let px=c.x,py=c.y;c.tr.forEach(t=>{t.x+=(px-t.x)*.45;t.y+=(py-t.y)*.45;t.el.style.transform=`translate3d(${t.x-4}px,${t.y-4}px,0) scale(${1-t.k*.2})`;t.el.style.opacity=(.55-t.k*.12).toFixed(2);px=t.x;py=t.y});
    if(c.tl!==c.last){c.tool.textContent=c.tl;c.last=c.tl}if(!c.was){c.el.style.opacity=1;c.was=true;c.tr.forEach(t=>{t.x=c.x;t.y=c.y})}dirty=true}
   else if(c.was&&now-c.seen<900){dirty=true;c.tr.forEach(t=>{t.x+=(c.x-t.x)*.45;t.y+=(c.y-t.y)*.45;t.el.style.transform=`translate3d(${t.x-4}px,${t.y-4}px,0) scale(${1-t.k*.2})`})}
   else if(c.was){c.el.style.opacity=0;c.tr.forEach(t=>t.el.style.opacity=0);c.was=false}});
  const pct=Math.round(done/steps.length*100);
- if(pct!==lastPct){hbar.style.width=pct+'%';hud.textContent=pct<100?`11 agents · building this page · ${pct}%`:'✓ page built · 0 bugs found';lastPct=pct}
+ const tmsg=hud.dataset.tour||'';if(pct!==lastPct||tmsg!==hud._t){hbar.style.width=pct+'%';hud.textContent=tmsg?`${tmsg} · ${pct}%`:pct<100?`11 agents · building this page · ${pct}%`:'✓ page built · 0 bugs found';lastPct=pct;hud._t=tmsg}
  requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
+/* ---------- intro tour: scroll down while the agents build, then back up, then the visitor takes over ---------- */
+(function(){
+ let seen=false;try{seen=localStorage.getItem('bbTour')==='1'}catch(e){}
+ if(seen||location.hash||scrollY>50)return;
+ const skip=document.createElement('button');skip.id='tourskip';skip.type='button';skip.textContent='Skip intro ✕';document.body.appendChild(skip);
+ let running=false,stopped=false,raf=0;
+ const hudSay=t=>{const h=document.getElementById('hudtxt');if(h)h.dataset.tour=t};
+ function stop(){if(stopped)return;stopped=true;running=false;cancelAnimationFrame(raf);skip.remove();hudSay('');dirty=true;
+  try{localStorage.setItem('bbTour','1')}catch(e){}
+  ['wheel','touchstart','keydown','mousedown'].forEach(ev=>removeEventListener(ev,stop,true))}
+ ['wheel','touchstart','keydown','mousedown'].forEach(ev=>addEventListener(ev,e=>{if(e.target===skip)return;stop()},{capture:true,passive:true}));
+ skip.addEventListener('click',()=>{stop();scrollTo({top:0,behavior:'smooth'})});
+ const go=y=>scrollTo({top:y,behavior:'instant'});
+ setTimeout(()=>{if(stopped)return;running=true;skip.classList.add('on');hudSay('Watch our agents build this page · tap anywhere to stop');
+  const max=()=>document.documentElement.scrollHeight-innerHeight;
+  const speed=Math.max(260,Math.min(620,max()/26));        // the whole page in about 26 seconds
+  let y=scrollY,last=performance.now(),phase='down',hold=0,back0=0,from=0;
+  function step(t){if(stopped)return;const dt=Math.min(.05,(t-last)/1000);last=t;
+   if(phase==='down'){const ramp=Math.min(1,(y+1)/300);y=Math.min(max(),y+speed*dt*(.35+.65*ramp));go(y);
+    if(y>=max()-1){phase='hold';hold=t}}
+   else if(phase==='hold'){if(t-hold>1400){phase='up';back0=t;from=scrollY}}
+   else{const k=Math.min(1,(t-back0)/2200),e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;go(from*(1-e));if(k>=1){stop();return}}
+   raf=requestAnimationFrame(step)}
+  raf=requestAnimationFrame(step)},3400);
+})();
 }
 /* video plays only while you can see it */
 const vid=document.querySelector('.phone video');
