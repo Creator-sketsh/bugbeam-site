@@ -467,7 +467,7 @@ function frame(now){
  const time=(now-t0)/1000,vh=innerHeight,sy=scrollY;
  const anyActive=steps.some(s=>s.e>0&&s.e<1);
  if(!dirty&&!anyActive&&time>HERO_END&&!crew.some(c=>c.was)){crew.forEach(c=>{if(c.was){c.el.style.opacity=0;c.was=false}});requestAnimationFrame(frame);return}
- dirty=false;crew.forEach(c=>{c.on=false});
+ dirty=false;crew.forEach(c=>{c.on=false;c.patrol=false});
  const atBottom=sy+vh>=docH-6;let done=0,heroIdx=0;
  for(const s of steps){
   const top=s.top-sy;let e;
@@ -495,7 +495,16 @@ function frame(now){
    if(k>0&&k<1&&N){const tt=tl.top-sy;if(tt<vh&&tt>-40){const lines=Math.max(1,Math.round(tl.h/28)),pos=k*lines,line=Math.min(lines-1,Math.floor(pos));
      use(s.ag[2],tl.left+tl.w*(pos-line)+4,tt+tl.h*(line+1)/lines-2,'⌨️')}}});
  }
- crew.forEach(c=>{if(c.on){c.seen=now;c.x+=(c.tx-c.x)*.3;c.y+=(c.ty-c.y)*.3;c.el.style.transform=`translate3d(${c.x}px,${c.y}px,0)`;
+ // patrol: free agents check finished parts all over the screen
+ const cand=steps.filter(s=>s.e>.35&&s.top-sy+s.h>vh*.16&&s.top-sy<vh*.88&&s.w>40);
+ const maxP=Math.min(cand.length,innerWidth<700?4:7);let pat=0;const taken=new Set(crew.filter(c=>c.on).map(c=>c.pt));
+ const ok=p=>p&&p.e>.35&&p.top-sy+p.h>vh*.04&&p.top-sy<vh*.92;
+ if(cand.length)crew.forEach(c=>{if(c.on||pat>=maxP)return;pat++;
+  if(!ok(c.pt)||now>c.ptEnd||taken.has(c.pt)){const free=cand.filter(p=>!taken.has(p));const pool=free.length?free:cand;
+   c.pt=pool[Math.floor(Math.random()*pool.length)];c.ptEnd=now+1600+Math.random()*2400;c.px=Math.random();c.py=Math.random()}
+  taken.add(c.pt);const p=c.pt,vt=Math.max(p.top-sy,vh*.13),vb=Math.min(p.top-sy+p.h,vh*.9);
+  c.tx=p.left+p.w*(.08+.84*c.px);c.ty=vt+(vb-vt)*(.15+.7*c.py);c.tl='🔍';c.on=true;c.patrol=true});
+ crew.forEach(c=>{if(c.on){c.seen=now;const sp=c.patrol?.06:.3;c.x+=(c.tx-c.x)*sp;c.y+=(c.ty-c.y)*sp;c.el.style.transform=`translate3d(${c.x}px,${c.y}px,0)`;
    let px=c.x,py=c.y;c.tr.forEach(t=>{t.x+=(px-t.x)*.45;t.y+=(py-t.y)*.45;t.el.style.transform=`translate3d(${t.x-4}px,${t.y-4}px,0) scale(${1-t.k*.2})`;t.el.style.opacity=(.55-t.k*.12).toFixed(2);px=t.x;py=t.y});
    if(c.tl!==c.last){c.tool.textContent=c.tl;c.last=c.tl}if(!c.was){c.el.style.opacity=1;c.was=true;c.tr.forEach(t=>{t.x=c.x;t.y=c.y})}dirty=true}
   else if(c.was&&now-c.seen<900){dirty=true;c.tr.forEach(t=>{t.x+=(c.x-t.x)*.45;t.y+=(c.y-t.y)*.45;t.el.style.transform=`translate3d(${t.x-4}px,${t.y-4}px,0) scale(${1-t.k*.2})`})}
