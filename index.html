@@ -187,9 +187,11 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 .final .lead{margin:0 auto}
 @media (max-width:980px){.pains{grid-template-columns:repeat(2,1fr)}.vs{grid-template-columns:1fr}}
 @media (max-width:560px){.pains{grid-template-columns:1fr}.cmp{padding:16px 10px 4px}.cmp table{font-size:12.5px}.cmp th,.cmp td{padding:10px 5px}.cmp th{font-size:11px}.cmp th b{font-size:16px}.final{padding:40px 18px}}
+#replay{margin-left:4px;padding:6px 11px;border-radius:9px;border:1px solid rgba(56,189,248,.5);background:rgba(37,99,235,.2);color:#E7EDF8;font:700 12px Inter;cursor:pointer;white-space:nowrap}#replay:hover{background:rgba(37,99,235,.4)}#replay[hidden]{display:none}
 #tourskip{position:fixed;right:16px;bottom:16px;z-index:70;padding:10px 16px;border-radius:12px;border:1px solid rgba(56,189,248,.45);background:rgba(8,13,28,.94);color:#E7EDF8;font:700 13px Inter;cursor:pointer;opacity:0;transform:translateY(10px);transition:.3s}
 #tourskip.on{opacity:1;transform:none}#tourskip:hover{border-color:#38BDF8}
 @media (max-width:560px){#tourskip{bottom:70px}}
+@media (max-width:560px){#hud:has(#replay:not([hidden])) #hudtxt{display:none}}
 /* responsive */
 @media (max-width:980px){
  .hero .grid,.rep,.order{grid-template-columns:1fr}.agents{grid-template-columns:repeat(2,1fr)}.steps,.nums{grid-template-columns:repeat(2,1fr)}.prices{grid-template-columns:1fr;max-width:460px;margin-left:auto;margin-right:auto}
@@ -382,7 +384,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
 
 <footer><div class="wrap"><a class="logo" href="#top" style="font-size:18px">Bug<b>beam</b></a><span>QA testing for new launches · <a href="mailto:support@bugbeam.dev" style="color:var(--cyan)">support@bugbeam.dev</a></span><span><a href="privacy.html" style="color:var(--mut)">Privacy</a> · <a href="terms.html" style="color:var(--mut)">Terms</a> · © 2026 Bugbeam</span></div></footer>
 
-<div id="hud"><div class="avs" id="hudav"></div><span id="hudtxt">building this page</span><div class="bar"><i id="hudbar"></i></div></div>
+<div id="hud"><div class="avs" id="hudav"></div><span id="hudtxt">building this page</span><div class="bar"><i id="hudbar"></i></div><button id="replay" type="button" hidden>▶ Watch the build again</button></div>
 
 <script>
 /* ---------- order form ---------- */
@@ -465,7 +467,7 @@ const crew=AG.map(a=>{const tr=[0,1,2,3].map(k=>{const t=document.createElement(
  return{seen:0,el:d,tr,name:a[0],color:a[1],tool:d.querySelector('.tool'),x:-200,y:-200,tx:0,ty:0,on:false,was:false,tl:'',last:''}});
 function use(i,x,y,tl){let c=crew[i];if(c.on){c=crew.find(z=>!z.on&&z.was)||crew.find(z=>!z.on);if(!c)return}if(!c.was){c.x=x+(Math.random()-.5)*120;c.y=y+60}c.on=true;c.tx=x;c.ty=y;c.tl=tl}
 const hud=document.getElementById('hudtxt'),hbar=document.getElementById('hudbar');let lastPct=-1;
-const t0=performance.now(),HERO_END=7;
+let t0=performance.now();const HERO_END=7;
 function frame(now){
  const time=(now-t0)/1000,vh=innerHeight,sy=scrollY;
  const anyActive=steps.some(s=>(s.e>0&&s.e<1)||(s.t0>0&&s.e<1));
@@ -510,23 +512,32 @@ function frame(now){
   else if(c.was&&now-c.seen<900){dirty=true;c.tr.forEach(t=>{t.x+=(c.x-t.x)*.45;t.y+=(c.y-t.y)*.45;t.el.style.transform=`translate3d(${t.x-4}px,${t.y-4}px,0) scale(${1-t.k*.2})`})}
   else if(c.was){c.el.style.opacity=0;c.tr.forEach(t=>t.el.style.opacity=0);c.was=false}});
  const pct=Math.round(done/steps.length*100);
- const tmsg=hud.dataset.tour||'';if(pct!==lastPct||tmsg!==hud._t){hbar.style.width=pct+'%';hud.textContent=tmsg?`${tmsg} · ${pct}%`:pct<100?`11 agents · building this page · ${pct}%`:'✓ page built · 0 bugs found';lastPct=pct;hud._t=tmsg}
+ const tmsg=hud.dataset.tour||'';const rb=document.getElementById('replay');if(rb){const show=pct>=100&&!tourOn;if(rb.hidden===show)rb.hidden=!show}if(pct!==lastPct||tmsg!==hud._t){hbar.style.width=pct+'%';hud.textContent=tmsg?`${tmsg} · ${pct}%`:pct<100?`11 agents · building this page · ${pct}%`:'✓ page built · 0 bugs found';lastPct=pct;hud._t=tmsg}
  requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 /* ---------- intro tour: scroll down while the agents build, then back up, then the visitor takes over ---------- */
-(function(){
- let seen=false;try{seen=localStorage.getItem('bbTour')==='1'}catch(e){}
- if(seen||location.hash||scrollY>50)return;
+let tourOn=false;
+const replayBtn=document.getElementById('replay');
+function resetBuild(){
+ steps.forEach(s=>{s.t0=null;s.e=-1;s.forced=false;
+  if(s.box){s.el.classList.remove('done','flash');s.el.style.setProperty('--g',0);s.el.style.setProperty('--p',0)}
+  s.typed.forEach(tl=>{tl.chars.forEach(c=>c.classList.remove('on'));tl.caret.style.display='none';tl.n=-1})});
+ document.querySelectorAll('.built').forEach(b=>b.remove());
+ t0=performance.now();queueT=0;lastPct=-1;dirty=true}
+function runTour(delay){
+ tourOn=true;replayBtn.hidden=true;
  const skip=document.createElement('button');skip.id='tourskip';skip.type='button';skip.textContent='Skip intro ✕';document.body.appendChild(skip);
- let running=false,stopped=false,raf=0;
+ let stopped=false,raf=0;
  const hudSay=t=>{const h=document.getElementById('hudtxt');if(h)h.dataset.tour=t};
- function stop(){if(stopped)return;stopped=true;running=false;cancelAnimationFrame(raf);skip.remove();hudSay('');dirty=true;
+ const evs=['wheel','touchstart','keydown','mousedown'];
+ const onUser=e=>{if(e.target===skip||e.target===replayBtn)return;stop()};
+ function stop(){if(stopped)return;stopped=true;tourOn=false;cancelAnimationFrame(raf);skip.remove();hudSay('');dirty=true;
   try{localStorage.setItem('bbTour','1')}catch(e){}
-  ['wheel','touchstart','keydown','mousedown'].forEach(ev=>removeEventListener(ev,stop,true))}
- ['wheel','touchstart','keydown','mousedown'].forEach(ev=>addEventListener(ev,e=>{if(e.target===skip)return;stop()},{capture:true,passive:true}));
+  evs.forEach(ev=>removeEventListener(ev,onUser,true))}
+ evs.forEach(ev=>addEventListener(ev,onUser,{capture:true,passive:true}));
  skip.addEventListener('click',()=>{stop();scrollTo({top:0,behavior:'smooth'})});
  const go=y=>scrollTo({top:y,behavior:'instant'});
- setTimeout(()=>{if(stopped)return;running=true;skip.classList.add('on');hudSay('Watch our agents build this page · tap anywhere to stop');
+ setTimeout(()=>{if(stopped)return;skip.classList.add('on');hudSay('Watch our agents build this page · tap anywhere to stop');
   const max=()=>document.documentElement.scrollHeight-innerHeight;
   const speed=Math.max(260,Math.min(620,max()/26));        // the whole page in about 26 seconds
   let y=scrollY,last=performance.now(),phase='down',hold=0,back0=0,from=0;
@@ -536,8 +547,10 @@ requestAnimationFrame(frame);
    else if(phase==='hold'){if(t-hold>1400){phase='up';back0=t;from=scrollY}}
    else{const k=Math.min(1,(t-back0)/2200),e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;go(from*(1-e));if(k>=1){stop();return}}
    raf=requestAnimationFrame(step)}
-  raf=requestAnimationFrame(step)},3400);
-})();
+  raf=requestAnimationFrame(step)},delay)}
+replayBtn.addEventListener('click',()=>{if(tourOn)return;scrollTo({top:0,behavior:'instant'});resetBuild();runTour(3400)});
+(function(){let seen=false;try{seen=localStorage.getItem('bbTour')==='1'}catch(e){}
+ if(!seen&&!location.hash&&scrollY<=50)runTour(3400)})();
 }
 /* video plays only while you can see it */
 const vid=document.querySelector('.phone video');
