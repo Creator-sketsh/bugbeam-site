@@ -31,8 +31,8 @@
 <link rel="stylesheet" href="styles.css">
 <script src="app.js" defer></script>
 
-<!-- Cloudflare Turnstile (spam/bot check on the order form) -->
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<!-- hCaptcha (spam/bot check on the order form — verified server-side by Web3Forms) -->
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 <body>
 
@@ -103,42 +103,23 @@
 </div></section>
 
 
-<!-- =========================== THE CREW ==========================
-     The agent map: Bugbeam in the middle, four teams around it.
-     Lines + moving dots are drawn by app.js (section 6). -->
+<!-- =========================== THE CREW ========================== -->
 <section id="crew-sec"><div class="wrap">
  <div class="center"><div class="eyebrow" data-type>The crew</div>
- <h2 class="h2" data-type>11 agents. 4 teams. One job: your launch.</h2>
- <p class="lead" data-type>Each agent does one thing really well. Bugbeam runs the team and passes the work from one agent to the next, until a checked report lands in your inbox.</p></div>
-
- <div class="amap" id="amap">
-  <svg class="amap-lines" id="amapsvg" aria-hidden="true"></svg>
-
-  <div class="ain bx" data-node="in"><span class="k">In</span><span>🚀 New launches</span><span>📝 Your order</span><span>✉️ Your replies</span><span>💳 Your payment</span></div>
-
-  <div class="team bx" data-node="find" style="--tc:#A78BFA"><div class="th"><span class="tn">01</span><h3 data-type>Find</h3><em>2 agents</em></div>
-   <div class="ag"><i style="--ac:#A78BFA">🛰️</i><div><b>Scout</b><span>Finds new launches the day they go live.</span></div></div>
-   <div class="ag"><i style="--ac:#FBBF24">✉️</i><div><b>Sales</b><span>Writes to founders with what we found.</span></div></div></div>
-
-  <div class="team bx" data-node="test" style="--tc:#2DD4BF"><div class="th"><span class="tn">02</span><h3 data-type>Test</h3><em>2 agents</em></div>
-   <div class="ag"><i style="--ac:#2DD4BF">🧪</i><div><b>Full Test</b><span>Goes deep: up to 15 pages, every size.</span></div></div>
-   <div class="ag"><i style="--ac:#F472B6">👁️</i><div><b>Vision</b><span>Looks at every screen like a real visitor.</span></div></div></div>
-
-  <div class="hub bx" data-node="hub"><div class="hring"><span>🪲</span></div><h3>Bugbeam</h3><p>The main agent. Runs every test and tells each agent what to do next.</p><div class="hnow"><span class="dot"></span><span id="amapnow">Online</span></div></div>
-
-  <div class="team bx" data-node="check" style="--tc:#84CC16"><div class="th"><span class="tn">03</span><h3 data-type>Check</h3><em>2 agents</em></div>
-   <div class="ag"><i style="--ac:#84CC16">🔍</i><div><b>Verifier</b><span>Tests every bug a second time. No false alarms.</span></div></div>
-   <div class="ag"><i style="--ac:#FB7185">🛡️</i><div><b>Gatekeeper</b><span>Final check before anything reaches you.</span></div></div></div>
-
-  <div class="team bx" data-node="care" style="--tc:#38BDF8"><div class="th"><span class="tn">04</span><h3 data-type>Care</h3><em>4 agents</em></div>
-   <div class="ag"><i style="--ac:#38BDF8">📥</i><div><b>Inbox</b><span>Reads your replies and orders right away.</span></div></div>
-   <div class="ag"><i style="--ac:#34D399">💳</i><div><b>Payments</b><span>Sees your payment and starts your test.</span></div></div>
-   <div class="ag"><i style="--ac:#22D3EE">📡</i><div><b>Monitor</b><span>Checks your site is up, every 5 minutes.</span></div></div>
-   <div class="ag"><i style="--ac:#F87171">🧠</i><div><b>Coach</b><span>Learns from every report, so each one is better.</span></div></div></div>
-
-  <div class="aout bx" data-node="out"><span class="k">Out</span><span>📄 Your bug report (PDF)</span><span>🔁 Free re-check</span><span>📡 Up-time alerts</span></div>
-
-  <div class="alog bx"><div class="lh"><b>Agent log</b><span>example run</span></div><div id="amaplog"></div></div>
+ <h2 class="h2" data-type>11 agents. One job: your launch.</h2>
+ <p class="lead" data-type>Each agent does one thing really well. Together they find new launches, test them, check the results, and stay on your site after it's fixed.</p></div>
+ <div class="agents">
+  <div class="agent wide bx"><span class="tag">online</span><div class="av" style="background:rgba(59,130,246,.25)">🪲</div><h3 data-type>Bugbeam</h3><p data-type>The main agent. It runs the whole test and tells every other agent what to do.</p></div>
+  <div class="agent bx"><div class="av" style="background:rgba(167,139,250,.2)">🛰️</div><h3 data-type>Scout</h3><p data-type>Finds new launches the day they go live.</p></div>
+  <div class="agent bx"><div class="av" style="background:rgba(244,114,182,.2)">👁️</div><h3 data-type>Vision</h3><p data-type>Looks at every screen like a real visitor.</p></div>
+  <div class="agent bx"><div class="av" style="background:rgba(132,204,22,.2)">🔍</div><h3 data-type>Verifier</h3><p data-type>Tests every bug a second time. No false alarms.</p></div>
+  <div class="agent bx"><div class="av" style="background:rgba(251,113,133,.2)">🛡️</div><h3 data-type>Gatekeeper</h3><p data-type>Final check before anything reaches you.</p></div>
+  <div class="agent bx"><div class="av" style="background:rgba(45,212,191,.2)">🧪</div><h3 data-type>Full Test</h3><p data-type>Goes deep: up to 15 pages, every size.</p></div>
+  <div class="agent bx"><div class="av" style="background:rgba(34,211,238,.2)">📡</div><h3 data-type>Monitor</h3><p data-type>Checks your site is up, every 5 minutes.</p></div>
+  <div class="agent bx"><div class="av" style="background:rgba(251,191,36,.2)">✉️</div><h3 data-type>Sales</h3><p data-type>Writes to founders with what we found.</p></div>
+  <div class="agent bx"><div class="av" style="background:rgba(56,189,248,.2)">📥</div><h3 data-type>Inbox</h3><p data-type>Reads your replies and orders right away.</p></div>
+  <div class="agent bx"><div class="av" style="background:rgba(52,211,153,.2)">💳</div><h3 data-type>Payments</h3><p data-type>Sees your payment and starts your test.</p></div>
+  <div class="agent bx"><div class="av" style="background:rgba(248,113,113,.2)">🧠</div><h3 data-type>Coach</h3><p data-type>Learns from every report, so each one is better.</p></div>
  </div>
 </div></section>
 
@@ -235,10 +216,9 @@
   <label for="cemail">Your email (we send the report here)</label><input id="cemail" type="email" placeholder="you@yoursite.com" required autocomplete="email">
   <input id="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true"><!-- honeypot: bots fill this, humans don't -->
   <label for="plan">What you want</label><select id="plan"><option>Full test ($19)</option><option>Bugbeam Care ($69 for 3 months)</option><option>Free quick check</option></select>
-  <!-- Turnstile widget. data-sitekey below is Cloudflare's always-passes TEST key —
-       replace it with your real site key (see the setup note), and add the matching
-       secret key in your Web3Forms dashboard so it is enforced on the server too. -->
-  <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-theme="dark"></div>
+  <!-- hCaptcha widget. This is Web3Forms' shared free-plan sitekey; Web3Forms verifies the
+       response on its server (hCaptcha is turned on in the form's Spam & Security settings). -->
+  <div class="h-captcha" data-sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2" data-theme="dark"></div>
   <button class="btn pri" id="sendbtn" type="submit" style="margin-top:6px">Send my order →</button>
   <div id="ordermsg"></div>
   <div style="font-size:13px;color:var(--mut)">Or email <a href="mailto:support@bugbeam.dev" style="color:var(--cyan)">support@bugbeam.dev</a> with the subject <b>Bugbeam order: yoursite.com</b></div>

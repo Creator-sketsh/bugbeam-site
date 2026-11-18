@@ -23,8 +23,8 @@ document.getElementById('f').addEventListener('submit',async e=>{
        btn=document.getElementById('sendbtn');
  if(!site||!email||document.getElementById('hp').value)return;          // hp = honeypot: a filled value means a bot
 
- // Turnstile token (if the widget is present, a human check must be passed first).
- const cap=document.querySelector('[name="cf-turnstile-response"]'),capToken=cap?cap.value:'';
+ // hCaptcha token (if the widget is present, a human check must be passed first).
+ const cap=document.querySelector('[name="h-captcha-response"]'),capToken=cap?cap.value:'';
  if(cap&&!capToken){m.style.display='block';m.textContent='Please complete the "I’m human" check, then send again.';return}
 
  const subject=`Bugbeam order: ${site}`,
@@ -43,7 +43,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
  };
 
  btn.disabled=true;btn.textContent='Sending…';
- const payload={access_key:'67c5140f-3e60-44e0-ae5b-4054ee807eb8',subject,from_name:'Bugbeam website',email,replyto:email,botcheck:'','cf-turnstile-response':capToken,Website:'https://'+site,Plan:plan,Email:email,message:body};
+ const payload={access_key:'67c5140f-3e60-44e0-ae5b-4054ee807eb8',subject,from_name:'Bugbeam website',email,replyto:email,botcheck:'','h-captcha-response':capToken,Website:'https://'+site,Plan:plan,Email:email,message:body};
 
  // Try Web3Forms, and retry once if a transient network blip drops it (the tablet case).
  let ok=false;
@@ -52,7 +52,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
   ok=await post(payload);
  }
 
- if(window.turnstile)try{turnstile.reset()}catch(e){}   // tokens are single-use: get a fresh one for the next order
+ if(window.hcaptcha)try{hcaptcha.reset()}catch(e){}   // tokens are single-use: get a fresh one for the next order
  m.style.display='block';
  if(ok){
   m.style.background='rgba(52,211,153,.1)';m.style.borderColor='rgba(52,211,153,.35)';
