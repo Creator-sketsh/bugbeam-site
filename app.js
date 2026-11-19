@@ -106,12 +106,13 @@ const AG=[["Bugbeam","#3B82F6"],["Scout","#A78BFA"],["Vision","#F472B6"],["Verif
 document.getElementById('hudav').innerHTML=AG.map(a=>`<i style="background:${a[1]}"></i>`).join('');
 
 let tourOn=false;  // true while the intro auto-tour is running (declared here so frame() can read it)
-// Touch devices (phones/tablets) get NO automatic scrolling at all — no intro tour, no replay
-// button — because a screen that moves on its own is disorienting there. The page still builds
-// as the visitor scrolls themselves.
-const isTouch=matchMedia('(pointer:coarse)').matches;
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+// The agent-building animation runs on every device — phones and tablets included — the same way:
+// the page auto-tours and the agents draw it in. Only "reduce motion" opts out.
+if(reduceMotion){
+ const hud=document.getElementById('hud');if(hud)hud.remove();   // reduced motion → no animation, no HUD
+}else{
  document.documentElement.classList.add('js');
  const clamp=x=>Math.min(1,Math.max(0,x)),
        ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
@@ -264,7 +265,7 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
   // Progress HUD + replay button.
   const pct=Math.round(done/steps.length*100);
   const tmsg=hud.dataset.tour||'',rb=document.getElementById('replay');
-  if(rb){const show=pct>=100&&!tourOn&&!isTouch;if(rb.hidden===show)rb.hidden=!show}
+  if(rb){const show=pct>=100&&!tourOn;if(rb.hidden===show)rb.hidden=!show}
   if(pct!==lastPct||tmsg!==hud._t){hbar.style.width=pct+'%';hud.textContent=tmsg?`${tmsg} · ${pct}%`:pct<100?`11 agents · building this page · ${pct}%`:'✓ page built · 0 bugs found';lastPct=pct;hud._t=tmsg}
 
   // Page fully built: stop reacting to scroll so scrolling stays native-smooth.
@@ -331,10 +332,11 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
  }
  replayBtn.addEventListener('click',()=>{if(tourOn)return;scrollTo({top:0,behavior:'instant'});resetBuild();runTour(900)});
 
- // Run the auto-scroll tour once per visitor — never on touch devices (see isTouch above).
+ // Run the auto-scroll tour once per visitor (on every device), unless they arrive deep-linked
+ // or already scrolled down.
  (function(){
   let seen=false;try{seen=localStorage.getItem('bbTour')==='1'}catch(e){}
-  if(!isTouch&&!seen&&!location.hash&&scrollY<=50)runTour(900);
+  if(!seen&&!location.hash&&scrollY<=50)runTour(900);
  })();
 }
 
