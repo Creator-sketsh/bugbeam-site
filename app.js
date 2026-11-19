@@ -1,7 +1,7 @@
 /* ==========================================================================
    Bugbeam — app.js
    Sections, in order:
-     1. Order form          — sends the order (Web3Forms → FormSubmit → mailto)
+     1. Order form          — sends the order (Web3Forms, falls back to a mailto link)
      2. Live test card       — the looping demo card in the hero
      3. Nav bar auto-hide    — hides the menu bar on scroll down
      4. Build animation      — the agents "drawing" the page as you scroll
@@ -19,6 +19,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
  e.preventDefault();
  const site=document.getElementById('site').value.trim().replace(/^https?:\/\//,'').replace(/\/$/,''),
        plan=document.getElementById('plan').value,
+       pay=document.getElementById('pay').value,
        email=document.getElementById('cemail').value.trim(),
        m=document.getElementById('ordermsg'),
        btn=document.getElementById('sendbtn');
@@ -30,7 +31,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
 
  const subject=`Bugbeam order: ${site}`,
        esc=x=>x.replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])),
-       body=`Website: https://${site}\nPlan: ${plan}\nEmail: ${email}`,
+       body=`Website: https://${site}\nPlan: ${plan}\nPayment: ${pay}\nEmail: ${email}`,
        mailtoHref=`mailto:support@bugbeam.dev?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
  // POST to Web3Forms. Returns true only on a confirmed success. 12s cap for slow mobile networks.
@@ -44,7 +45,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
  };
 
  btn.disabled=true;btn.textContent='Sending…';
- const payload={access_key:'67c5140f-3e60-44e0-ae5b-4054ee807eb8',subject,from_name:'Bugbeam website',email,replyto:email,botcheck:'','h-captcha-response':capToken,Website:'https://'+site,Plan:plan,Email:email,message:body};
+ const payload={access_key:'67c5140f-3e60-44e0-ae5b-4054ee807eb8',subject,from_name:'Bugbeam website',email,replyto:email,botcheck:'','h-captcha-response':capToken,Website:'https://'+site,Plan:plan,Payment:pay,Email:email,message:body};
 
  // Try Web3Forms, and retry once if a transient network blip drops it (the tablet case).
  let ok=false;
@@ -68,11 +69,21 @@ document.getElementById('f').addEventListener('submit',async e=>{
 });
 
 
+/* PHONE MENU: the ☰ button opens the section links on small screens. */
+(()=>{const nav=document.querySelector('nav'),mb=nav&&nav.querySelector('.menu');if(!mb)return;
+ const set=o=>{nav.classList.toggle('open',o);mb.setAttribute('aria-expanded',o);mb.textContent=o?'✕':'☰';mb.setAttribute('aria-label',o?'Close menu':'Open menu')};
+ mb.addEventListener('click',()=>set(!nav.classList.contains('open')));
+ nav.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>set(false)));
+ document.addEventListener('click',e=>{if(!nav.contains(e.target))set(false)});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')set(false)});
+})();
+
+
 /* 2. LIVE TEST CARD (hero, loops forever) ================================== */
 const LV={
  sites:['your-launch.app','new-saas.io','shiplist.co'],
  bugs:[['h','Buy button dead on phone'],['m','Form accepts empty email'],['l','Image missing alt text'],['m','Menu covers the logo on tablet'],['l','Text too small on phone']],
- log:[['#A78BFA','Scout','found a new launch'],['#3B82F6','Bugbeam','testing 15 pages'],['#F472B6','Vision','checking phone layout'],['#3B82F6','Bugbeam','bug found: Buy button'],['#84CC16','Verifier','re-testing 5 bugs…'],['#84CC16','Verifier','1 false alarm removed'],['#FB7185','Gatekeeper','report approved ✓'],['#FBBF24','Sales','report sent to founder ✉']]
+ log:[['#A78BFA','Lead Scout','found a new launch'],['#3B82F6','Bugbeam','testing 15 pages'],['#F472B6','Vision','checking phone layout'],['#3B82F6','Bugbeam','bug found: Buy button'],['#84CC16','Verifier','re-testing 5 bugs…'],['#84CC16','Verifier','1 false alarm removed'],['#FB7185','Gatekeeper','report approved ✓'],['#FBBF24','Sales','report sent to founder ✉']]
 };
 let lvRound=0;
 function lvRun(){
@@ -119,7 +130,7 @@ lvRun();
 /* 4. BUILD ANIMATION ======================================================
    The 11 agents draw every .bx box and type every [data-type] line as the
    page scrolls. Skipped entirely when the visitor prefers reduced motion. */
-const AG=[["Bugbeam","#3B82F6"],["Scout","#A78BFA"],["Vision","#F472B6"],["Verifier","#84CC16"],["Gatekeeper","#FB7185"],["Sales","#FBBF24"],["Inbox","#38BDF8"],["Payments","#34D399"],["Full Test","#2DD4BF"],["Monitor","#22D3EE"],["Coach","#F87171"]];
+const AG=[["Bugbeam","#3B82F6"],["Lead Scout","#A78BFA"],["Vision","#F472B6"],["Verifier","#84CC16"],["Gatekeeper","#FB7185"],["Sales","#FBBF24"],["Inbox","#38BDF8"],["Payments","#34D399"],["Full Test","#2DD4BF"],["Monitoring","#22D3EE"],["Coach","#F87171"]];
 document.getElementById('hudav').innerHTML=AG.map(a=>`<i style="background:${a[1]}"></i>`).join('');
 
 let tourOn=false;  // true while the intro auto-tour is running (declared here so frame() can read it)

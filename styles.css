@@ -71,6 +71,9 @@ nav.hide{transform:translate(-50%,-160%);opacity:0;pointer-events:none}
 .logo b{color:var(--cyan);font-weight:700}
 nav .links{display:flex;gap:22px;margin-left:auto;font-size:14px;color:var(--mut);font-weight:500}
 nav .links a:hover{color:#fff}
+nav .menu{display:none;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:transparent;color:#fff;font-size:20px;cursor:pointer}
+.faq .paylist{margin:4px 0 12px;padding-left:20px;color:var(--mut)}
+.faq .paylist li{margin:6px 0}
 
 
 /* 6. BUTTONS =============================================================== */
@@ -315,6 +318,10 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
  .watch .ctas{justify-content:center}
  nav .links{display:none}
  nav .btn{margin-left:auto}
+ nav .menu{display:inline-flex}
+ nav.open .links{display:flex;flex-direction:column;gap:0;position:absolute;top:calc(100% + 8px);left:0;right:0;padding:8px;border-radius:14px;background:rgba(8,13,28,.98);border:1px solid var(--line);font-size:16px}
+ nav.open .links a{padding:13px 12px;border-radius:10px}
+ nav.open .links a:active{background:rgba(56,189,248,.1)}
  .order{padding:26px}
  .float[style*='left']{left:8px!important}
  .float[style*='right']{right:8px!important}
