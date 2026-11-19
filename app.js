@@ -3,9 +3,10 @@
    Sections, in order:
      1. Order form          — sends the order (Web3Forms → FormSubmit → mailto)
      2. Live test card       — the looping demo card in the hero
-     3. Build animation      — the agents "drawing" the page as you scroll
-     4. Intro tour           — auto-scroll build on first visit + replay
-     5. Video playback       — plays the demo video only while it's on screen
+     3. Nav bar auto-hide    — hides the menu bar on scroll down
+     4. Build animation      — the agents "drawing" the page as you scroll
+     5. Intro tour           — auto-scroll build on first visit + replay
+     6. Video playback       — plays the demo video only while it's on screen
    ========================================================================== */
 
 
@@ -99,7 +100,23 @@ function lvRun(){
 lvRun();
 
 
-/* 3. BUILD ANIMATION ======================================================
+/* 3. NAV BAR auto-hide ====================================================
+   Hide the floating menu bar while scrolling down; bring it back when
+   scrolling up or near the top. Runs on every device. */
+(function(){
+ const nav=document.querySelector('nav');if(!nav)return;
+ let lastY=scrollY,ticking=false;
+ function upd(){
+  const y=Math.max(0,scrollY);
+  if(y>lastY+4&&y>130)nav.classList.add('hide');          // scrolling down, past the top
+  else if(y<lastY-4||y<=130)nav.classList.remove('hide');  // scrolling up, or near the top
+  lastY=y;ticking=false;
+ }
+ addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(upd)}},{passive:true});
+})();
+
+
+/* 4. BUILD ANIMATION ======================================================
    The 11 agents draw every .bx box and type every [data-type] line as the
    page scrolls. Skipped entirely when the visitor prefers reduced motion. */
 const AG=[["Bugbeam","#3B82F6"],["Scout","#A78BFA"],["Vision","#F472B6"],["Verifier","#84CC16"],["Gatekeeper","#FB7185"],["Sales","#FBBF24"],["Inbox","#38BDF8"],["Payments","#34D399"],["Full Test","#2DD4BF"],["Monitor","#22D3EE"],["Coach","#F87171"]];
@@ -275,7 +292,7 @@ if(reduceMotion){
  requestAnimationFrame(frame);
 
 
- /* 4. INTRO TOUR ========================================================== */
+ /* 5. INTRO TOUR ========================================================== */
  const replayBtn=document.getElementById('replay');
 
  // Reset every box back to "not built" so the tour can replay.
@@ -341,7 +358,7 @@ if(reduceMotion){
 }
 
 
-/* 5. VIDEO PLAYBACK ======================================================= */
+/* 6. VIDEO PLAYBACK ======================================================= */
 // Play the demo video only while it's on screen; show a Play button if autoplay is blocked.
 const vid=document.querySelector('.phone video'),vbtn=document.querySelector('.vplay');
 if(vid){
