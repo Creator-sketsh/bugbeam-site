@@ -186,16 +186,17 @@ function lvRun(){
 lvRun();
 
 
-/* 3. NAV BAR auto-hide ====================================================
-   Hide the floating menu bar while scrolling down; bring it back when
-   scrolling up or near the top. Runs on every device. */
+/* 3. NAV BAR + BOTTOM BAR auto-hide ========================================
+   Hide the floating menu bar (top) and the build bar (bottom-left) while scrolling down;
+   bring them back when scrolling up or near the top. The bottom bar stays while the intro plays. */
 (function(){
  const nav=document.querySelector('nav');if(!nav)return;
  let lastY=scrollY,ticking=false;
  function upd(){
-  const y=Math.max(0,scrollY);
-  if(y>lastY+4&&y>130)nav.classList.add('hide');          // scrolling down, past the top
-  else if(y<lastY-4||y<=130)nav.classList.remove('hide');  // scrolling up, or near the top
+  const y=Math.max(0,scrollY),hud=document.getElementById('hud'),touring=typeof tourOn!=='undefined'&&tourOn;
+  if(y>lastY+4&&y>130){nav.classList.add('hide');if(hud&&!touring)hud.classList.add('hide')}          // scrolling down, past the top
+  else if(y<lastY-4||y<=130){nav.classList.remove('hide');if(hud)hud.classList.remove('hide')}        // scrolling up, or near the top
+  if(hud&&touring)hud.classList.remove('hide');
   lastY=y;ticking=false;
  }
  addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(upd)}},{passive:true});
