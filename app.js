@@ -457,3 +457,9 @@ if(vid){
 document.addEventListener('focusin',e=>{if(e.target.matches('input,select,textarea'))document.body.classList.add('typing')});
 document.addEventListener('focusout',()=>setTimeout(()=>{if(!document.activeElement||!document.activeElement.matches('input,select,textarea'))document.body.classList.remove('typing')},50));
 
+
+/* FAQ: only one answer open at a time. Opening a question closes the one that was open
+   (also done by name="faq" in newer browsers; this covers the others). */
+document.querySelectorAll('.faq details').forEach(d=>d.addEventListener('toggle',()=>{
+ if(d.open)document.querySelectorAll('.faq details[open]').forEach(o=>{if(o!==d)o.open=false});
+}));
