@@ -150,8 +150,8 @@ document.getElementById('f').addEventListener('submit',async e=>{
 /* 2. LIVE TEST CARD (hero, loops forever) ================================== */
 const LV={
  sites:['your-launch.app','new-saas.io','shiplist.co'],
- bugs:[['h','Buy button dead on phone'],['m','Form accepts empty email'],['l','Image missing alt text'],['m','Menu covers the logo on tablet'],['l','Text too small on phone']],
- log:[['#A78BFA','Lead Scout','found a new launch'],['#3B82F6','Bugbeam','testing 15 pages'],['#F472B6','Vision','checking phone layout'],['#3B82F6','Bugbeam','bug found: Buy button'],['#84CC16','Verifier','re-testing 5 bugs…'],['#84CC16','Verifier','1 false alarm removed'],['#FB7185','Gatekeeper','report approved ✓'],['#FBBF24','Sales','report sent to founder ✉']]
+ bugs:[['h','Pricing link answers 404'],['m','Page scrolls sideways on phone'],['l','Image missing alt text'],['m','Popup covers the screen on phone'],['l','Text too small on phone']],
+ log:[['#A78BFA','Lead Scout','found a new launch'],['#3B82F6','Bugbeam','testing 15 pages'],['#F472B6','Vision','checking phone layout'],['#3B82F6','Bugbeam','bug found: broken link'],['#84CC16','Verifier','re-testing 5 bugs…'],['#84CC16','Verifier','1 false alarm removed'],['#FB7185','Gatekeeper','report approved ✓'],['#FBBF24','Sales','report sent to founder ✉']]
 };
 let lvRound=0;
 function lvRun(){
@@ -171,7 +171,7 @@ function lvRun(){
  const picks=[0,1,2,4];
  picks.forEach(k=>{
   const b=LV.bugs[k],d=document.createElement('div');d.className='bugrow';d.style.opacity=0;d.style.transform='translateY(8px)';
-  d.innerHTML=`<span class="sev ${b[0]}">${{h:'High',m:'Medium',l:'Low'}[b[0]]}</span><span>${b[1]}</span><span class="st">found</span>`;
+  d.innerHTML=`<span class="sev ${b[0]}">${{h:'High',m:'Medium',l:'Low'}[b[0]]}</span><span class="tt">${b[1]}</span><span class="st">found</span>`;
   B.appendChild(d);
  });
  // Lock the height the box will have at the end ("false alarm" can wrap to 2 lines), then show "found" again.
@@ -452,3 +452,8 @@ if(vid){
  if('IntersectionObserver' in window)new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting)tryPlay();else vid.pause()}),{threshold:.2}).observe(vid);
  else tryPlay();
 }
+
+/* Phones: while a form field is in use, hide the bottom bar and the help bubble so they never cover what you type */
+document.addEventListener('focusin',e=>{if(e.target.matches('input,select,textarea'))document.body.classList.add('typing')});
+document.addEventListener('focusout',()=>setTimeout(()=>{if(!document.activeElement||!document.activeElement.matches('input,select,textarea'))document.body.classList.remove('typing')},50));
+
