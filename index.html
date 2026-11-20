@@ -58,6 +58,13 @@
   <h1 data-type>We find the bugs before your users do.</h1>
   <p class="sub" data-type>Just launched? Our AI agents test your website on desktop, tablet and phone, check every bug twice, and send you a clear report in 24 hours.</p>
   <div class="ctas"><a class="btn pri bx" href="#order">Test my site for $19 →</a><a class="btn sec bx" href="#report">See a sample report</a></div>
+  <form class="freebox" id="fq" novalidate>
+   <div class="fqh"><b>Not sure yet? Check your site free.</b> Our agents look at a few pages on desktop and phone and email you the result, usually within 24 hours. No payment, no card.</div>
+   <div class="fqrow"><input id="fq-site" placeholder="yoursite.com" required autocomplete="url" aria-label="Your website"><input id="fq-email" type="email" placeholder="you@yoursite.com" required autocomplete="email" aria-label="Your email"><button class="btn pri" id="fq-btn" type="submit">Check my site free</button></div>
+   <input id="fq-hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
+   <div class="fqcap"><div class="h-captcha" data-sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2" data-theme="dark"></div></div>
+   <div id="fq-msg" class="fqmsg" role="status"></div>
+  </form>
   <div class="trust"><span><i>✓</i> No code access needed</span><span><i>✓</i> Every bug checked twice</span><span><i>✓</i> Free re-check</span></div>
  </div>
  <div style="position:relative">
@@ -257,6 +264,10 @@
 <!-- ============================ FOOTER =========================== -->
 <footer><div class="wrap"><a class="logo" href="#top" style="font-size:18px"><span>Bug<b>beam</b></span></a><span>QA testing for new launches · <a href="mailto:support@bugbeam.dev" style="color:var(--cyan)">support@bugbeam.dev</a></span><span><a href="privacy.html" style="color:var(--mut)">Privacy</a> · <a href="terms.html" style="color:var(--mut)">Terms</a> · © 2026 Bugbeam</span></div></footer>
 
+
+<!-- Help bubble (bottom-right): instant answers, written from this page's own facts (no AI, nothing invented) -->
+<div id="help"><button id="helpbtn" type="button" aria-expanded="false" aria-controls="helppanel">? Questions</button>
+ <div id="helppanel" role="dialog" aria-label="Quick answers" hidden><div class="hph"><b>Quick answers</b><button type="button" id="helpx" aria-label="Close">✕</button></div><div id="helpbody"></div></div></div>
 
 <!-- Build-progress HUD (bottom-left) -->
 <div id="hud"><div class="avs" id="hudav"></div><span id="hudtxt">building this page</span><div class="bar"><i id="hudbar"></i></div><button id="replay" type="button">▶ Watch the intro</button></div>

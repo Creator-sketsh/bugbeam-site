@@ -350,3 +350,25 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
  .built{font-size:10px;padding:3px 9px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+
+
+/* ---- Free check box (hero) ---- */
+.freebox{margin-top:22px;padding:16px;border:1px solid rgba(56,189,248,.35);border-radius:16px;background:linear-gradient(180deg,rgba(56,189,248,.09),rgba(13,21,41,.6));max-width:620px;position:relative}
+.fqh{font-size:14px;color:var(--mut);margin-bottom:10px} .fqh b{color:var(--txt)}
+.fqrow{display:flex;gap:8px;flex-wrap:wrap} .fqrow input{flex:1 1 170px;min-width:0;padding:11px 13px;border-radius:11px;border:1px solid var(--line);background:rgba(4,6,13,.6);color:var(--txt);font:15px Inter}
+.fqrow input:focus{outline:none;border-color:var(--cyan)} .fqrow .btn{flex:0 0 auto}
+.fqcap{display:none;margin-top:10px} .freebox.typing .fqcap{display:block}
+.fqmsg{display:none;margin-top:10px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);font-size:14px}
+@media (max-width:560px){.fqrow .btn{flex:1 1 100%}}
+
+/* ---- Help bubble ---- */
+#help{position:fixed;right:16px;bottom:16px;z-index:65;font:14px Inter}
+body.touring #help{display:none}
+#helpbtn{padding:11px 16px;border-radius:999px;border:1px solid rgba(56,189,248,.5);background:#0B1A33;color:var(--txt);font:700 14px Inter;cursor:pointer;box-shadow:0 10px 30px -10px rgba(14,165,233,.7)}
+#helpbtn:hover{border-color:var(--cyan)}
+#helppanel{position:absolute;right:0;bottom:56px;width:min(360px,calc(100vw - 32px));max-height:min(520px,calc(100vh - 110px));overflow:auto;padding:14px;border-radius:16px;border:1px solid rgba(56,189,248,.35);background:#0A1426;box-shadow:0 24px 60px -20px rgba(0,0,0,.8)}
+.hph{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px} .hph button{all:unset;cursor:pointer;color:var(--mut);padding:2px 6px}
+#helpbody .q{display:block;width:100%;text-align:left;margin:6px 0;padding:9px 12px;border-radius:11px;border:1px solid var(--line);background:rgba(148,163,184,.06);color:var(--txt);font:600 13.5px Inter;cursor:pointer}
+#helpbody .q:hover{border-color:var(--cyan)} #helpbody .a{color:var(--txt);line-height:1.55;margin:4px 2px 10px} #helpbody .back{all:unset;cursor:pointer;color:var(--cyan);font-size:13px}
+#helpbody .acts{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 4px} #helpbody .acts a{padding:7px 12px;border-radius:10px;background:rgba(56,189,248,.14);color:var(--txt);text-decoration:none;font-weight:700;font-size:13px}
+@media (max-width:560px){#help{right:12px;bottom:70px}}

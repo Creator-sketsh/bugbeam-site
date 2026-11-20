@@ -15,6 +15,70 @@
 document.querySelectorAll('[data-plan]').forEach(b=>
  b.addEventListener('click',()=>{document.getElementById('plan').value=b.dataset.plan}));
 
+// Reset the "I'm human" check inside one form (the page has two: the free check box and the order form).
+function resetCaptcha(form){const fr=form&&form.querySelector('iframe[data-hcaptcha-widget-id]');
+ if(window.hcaptcha)try{fr?hcaptcha.reset(fr.dataset.hcaptchaWidgetId):hcaptcha.reset()}catch(e){}}
+
+// FREE CHECK BOX (hero): website + email -> a "Free quick check" order, the same way the order form sends one.
+(function(){
+ const f=document.getElementById('fq');if(!f)return;
+ const site=document.getElementById('fq-site'),mail=document.getElementById('fq-email'),btn=document.getElementById('fq-btn'),m=document.getElementById('fq-msg');
+ const show=(txt,good)=>{m.style.display='block';m.style.background=good?'rgba(52,211,153,.1)':'rgba(249,115,22,.1)';
+  m.style.borderColor=good?'rgba(52,211,153,.35)':'rgba(249,115,22,.4)';m.innerHTML=txt};
+ const esc=x=>x.replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+ [site,mail].forEach(i=>i.addEventListener('focus',()=>f.classList.add('typing')));   // the human check appears once they start
+ f.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const s=site.value.trim().replace(/^https?:\/\//,'').replace(/\/$/,''),em=mail.value.trim();
+  if(document.getElementById('fq-hp').value)return;
+  if(!/^[^\s\/]+\.[^\s\/]{2,}/.test(s)){show('Type your website, for example <b>yoursite.com</b>.');site.focus();return}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){show('Type the email where you want the result.');mail.focus();return}
+  f.classList.add('typing');
+  const cap=f.querySelector('[name="h-captcha-response"]'),tok=cap?cap.value:'';
+  if(cap&&!tok){show('Please complete the "I’m human" check, then press the button again.');return}
+  const subject=`Bugbeam order: ${s}`,body=`Website: https://${s}\nPlan: Free quick check\nPayment: none (free)\nEmail: ${em}`;
+  btn.disabled=true;btn.textContent='Sending…';
+  let ok=false;
+  for(let a=0;a<2&&!ok;a++){
+   if(a)await new Promise(r=>setTimeout(r,800));
+   const ac=new AbortController(),tm=setTimeout(()=>ac.abort(),12000);
+   try{const r=await fetch('https://api.web3forms.com/submit',{signal:ac.signal,method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+     body:JSON.stringify({access_key:'67c5140f-3e60-44e0-ae5b-4054ee807eb8',subject,from_name:'Bugbeam website',email:em,replyto:em,botcheck:'',
+       'h-captcha-response':tok,Website:'https://'+s,Plan:'Free quick check',Payment:'none (free)',Email:em,message:body})});
+     const j=await r.json().catch(()=>({}));ok=r.ok&&(j.success===true||String(j.success)==='true')}catch(err){ok=false}finally{clearTimeout(tm)}
+  }
+  resetCaptcha(f);
+  if(ok){show(`✓ Got it! Our agents will check <b>${esc(s)}</b> and email the result to <b>${esc(em)}</b>, usually within 24 hours (look in spam too).`,true);
+   f.reset();btn.textContent='Check requested ✓'}
+  else{show(`Couldn't send just now. Press the button again, or email <b>support@bugbeam.dev</b> with your website.`);btn.disabled=false;btn.textContent='Check my site free'}
+ });
+})();
+
+// HELP BUBBLE: instant answers, all taken from this page's own FAQ and pricing (nothing made up, no AI).
+(function(){
+ const box=document.getElementById('help');if(!box)return;
+ const btn=document.getElementById('helpbtn'),panel=document.getElementById('helppanel'),body=document.getElementById('helpbody');
+ const QA=[
+  ['How much does it cost?','Free quick check: $0. Full test: $19 one time. Bugbeam Care: $69 for 3 months. Accessibility report: $129 one time.',[['See the prices','#pricing'],['Check my site free','#fq']]],
+  ['What do I get?','A PDF with every bug: a screenshot, the steps to reproduce it, the device, and how serious it is. Up to 15 pages on desktop, tablet and phone, within 24 hours.',[['See a sample report','sample-report.pdf'],['Order the full test','#order']]],
+  ['How do I pay?','Pick what suits you when you order, no bank account or PayPal needed: crypto (a secure NOWPayments link, 100+ coins), Western Union (debit card or cash), or Whish Money / OMT. You get the payment details by email after you order.',[['Order','#order']]],
+  ['What if you find nothing?','Our promise: full refund if we find no real bugs, if we can\'t test your site, or if your report isn\'t in your inbox within 24 hours of payment.',[['Check my site free first','#fq']]],
+  ['Is it safe for my site?','Yes. We test only your public pages, the way a visitor sees them. We never sign up, log in, buy anything or send your forms with real data. No access to your code or accounts.',[]],
+  ['How fast is it?','Within 24 hours of your payment, usually sooner. If it\'s late, you get a full refund. The free quick check usually arrives within 24 hours too.',[]],
+  ['Who is behind Bugbeam?','Elio Bathani, a QA tester, with AI agents that test around the clock and check every bug twice. Questions? Email support@bugbeam.dev.',[['Email us','mailto:support@bugbeam.dev']]]];
+ const list=()=>{body.innerHTML=QA.map((q,i)=>`<button type="button" class="q" data-i="${i}">${q[0]}</button>`).join('')};
+ const answer=i=>{const [q,a,acts]=QA[i];
+  body.innerHTML=`<button type="button" class="back">‹ All questions</button><p><b>${q}</b></p><p class="a">${a}</p><div class="acts">`+
+   acts.map(([t,h])=>`<a href="${h}"${h.endsWith('.pdf')?' target="_blank" rel="noopener"':''}>${t}</a>`).join('')+'</div>'};
+ const open=o=>{panel.hidden=!o;btn.setAttribute('aria-expanded',String(o));if(o)list()};
+ btn.addEventListener('click',()=>open(panel.hidden));
+ document.getElementById('helpx').addEventListener('click',()=>open(false));
+ body.addEventListener('click',e=>{const q=e.target.closest('.q');if(q)return answer(+q.dataset.i);
+  if(e.target.closest('.back'))return list();
+  const a=e.target.closest('.acts a');if(a&&a.getAttribute('href').startsWith('#'))open(false)});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')open(false)});
+})();
+
 // A shared link like bugbeam.dev/?ref=BB-ACME-4K fills in the friend's referral code.
 (function(){const r=new URLSearchParams(location.search).get('ref'),el=document.getElementById('ref');
  if(r&&el)el.value=r.toUpperCase().replace(/[^A-Z0-9-]/g,'').slice(0,20)})();
@@ -30,7 +94,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
  if(!site||!email||document.getElementById('hp').value)return;          // hp = honeypot: a filled value means a bot
 
  // hCaptcha token (if the widget is present, a human check must be passed first).
- const cap=document.querySelector('[name="h-captcha-response"]'),capToken=cap?cap.value:'';
+ const cap=document.getElementById('f').querySelector('[name="h-captcha-response"]'),capToken=cap?cap.value:'';
  if(cap&&!capToken){m.style.display='block';m.textContent='Please complete the "I’m human" check, then send again.';return}
 
  const subject=`Bugbeam order: ${site}`,
@@ -58,7 +122,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
   ok=await post(payload);
  }
 
- if(window.hcaptcha)try{hcaptcha.reset()}catch(e){}   // tokens are single-use: get a fresh one for the next order
+ resetCaptcha(document.getElementById('f'));   // tokens are single-use: get a fresh one for the next order
  m.style.display='block';
  if(ok){
   m.style.background='rgba(52,211,153,.1)';m.style.borderColor='rgba(52,211,153,.35)';
@@ -332,14 +396,14 @@ if(reduceMotion){
 
  // Auto-scroll down the page (agents build what's on screen), then back to top.
  function runTour(delay){
-  tourOn=true;replayBtn.hidden=true;
+  tourOn=true;replayBtn.hidden=true;document.body.classList.add('touring');
   const skip=document.createElement('button');skip.id='tourskip';skip.type='button';skip.textContent='Skip intro ✕';document.body.appendChild(skip);
   let stopped=false,raf=0;
   const hudSay=t=>{const h=document.getElementById('hudtxt');if(h)h.dataset.tour=t};
   const evs=['wheel','touchstart','keydown','mousedown'];
   const onUser=e=>{if(e.target===skip||e.target===replayBtn)return;stop()};
   function stop(){
-   if(stopped)return;stopped=true;tourOn=false;cancelAnimationFrame(raf);skip.remove();hudSay('');dirty=true;
+   if(stopped)return;stopped=true;tourOn=false;cancelAnimationFrame(raf);skip.remove();hudSay('');dirty=true;document.body.classList.remove('touring');
    try{localStorage.setItem('bbTour','1')}catch(e){}
    evs.forEach(ev=>removeEventListener(ev,onUser,true));
   }
