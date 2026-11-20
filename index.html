@@ -178,11 +178,12 @@
 <section id="pricing"><div class="wrap">
  <div class="center"><div class="eyebrow" data-type>Pricing</div>
  <h2 class="h2" data-type>Simple prices. No traps.</h2>
- <p class="lead" data-type>Pay once for a test, or let our agents watch your site for three months.</p></div>
+ <p class="lead" data-type>Pay once for a test or an accessibility report, or let our agents watch your site for three months.</p></div>
  <div class="prices">
   <div class="price bx"><h3 data-type>Quick check</h3><div class="amt">Free</div><div class="per">when we find your launch</div><ul><li>A few public pages</li><li>Desktop and phone</li><li>Top issues by email</li></ul><a class="btn sec" href="#order" data-plan="Free quick check">Ask for one</a></div>
   <div class="price best bx"><span class="badge">Most popular</span><h3 data-type>Full test</h3><div class="amt">$19</div><div class="per">one time</div><ul><li>Up to 15 pages</li><li>Desktop, tablet and phone</li><li>Every bug with screenshot and steps</li><li>PDF within 24 hours</li><li>Free re-check after 7 days</li></ul><a class="btn pri" href="#order" data-plan="Full test ($19)">Order the full test</a></div>
   <div class="price bx"><h3 data-type>Bugbeam Care</h3><div class="amt">$69</div><div class="per">for 3 months, paid once</div><ul><li>A full test every month</li><li>A check every week: what's new or fixed</li><li>An email right away if your site goes down</li><li>Every report as a PDF</li></ul><a class="btn sec" href="#order" data-plan="Bugbeam Care ($69 for 3 months)">Start Bugbeam Care</a></div>
+  <div class="price bx" style="position:relative"><span class="badge" style="background:linear-gradient(135deg,#7C3AED,#C026D3)">New</span><h3 data-type>Accessibility report</h3><div class="amt">$129</div><div class="per">one time · WCAG 2.1 AA</div><ul><li>Every page checked against WCAG 2.1 A and AA</li><li>Desktop and phone</li><li>Each problem: where it is, how serious, how to fix it</li><li>Shows what to fix for the European Accessibility Act</li><li>PDF within 24 hours</li></ul><a class="btn sec" href="#order" data-plan="Accessibility report ($129, WCAG 2.1 AA)">Order the report</a></div>
  </div>
  <!-- Full feature comparison -->
  <div class="cmp bx">
@@ -216,8 +217,9 @@
   <label for="site">Your website</label><input id="site" placeholder="yoursite.com" required autocomplete="url">
   <label for="cemail">Your email (we send the report here)</label><input id="cemail" type="email" placeholder="you@yoursite.com" required autocomplete="email">
   <input id="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true"><!-- honeypot: bots fill this, humans don't -->
-  <label for="plan">What you want</label><select id="plan"><option>Full test ($19)</option><option>Bugbeam Care ($69 for 3 months)</option><option>Free quick check</option></select>
+  <label for="plan">What you want</label><select id="plan"><option>Full test ($19)</option><option>Bugbeam Care ($69 for 3 months)</option><option>Accessibility report ($129, WCAG 2.1 AA)</option><option>Free quick check</option></select>
   <label for="pay">How you'd like to pay</label><select id="pay"><option>Crypto (USDT, USDC, BTC, ETH…)</option><option>Western Union</option><option>Whish Money or OMT</option></select>
+  <label for="ref">Referral code (optional: 20% off your first order)</label><input id="ref" placeholder="BB-XXXX-XX" autocomplete="off" maxlength="20">
   <!-- hCaptcha widget. This is Web3Forms' shared free-plan sitekey; Web3Forms verifies the
        response on its server (hCaptcha is turned on in the form's Spam & Security settings). -->
   <div class="h-captcha" data-sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2" data-theme="dark"></div>
@@ -257,7 +259,7 @@
 
 
 <!-- Build-progress HUD (bottom-left) -->
-<div id="hud"><div class="avs" id="hudav"></div><span id="hudtxt">building this page</span><div class="bar"><i id="hudbar"></i></div><button id="replay" type="button" hidden>▶ Watch the build again</button></div>
+<div id="hud"><div class="avs" id="hudav"></div><span id="hudtxt">building this page</span><div class="bar"><i id="hudbar"></i></div><button id="replay" type="button">▶ Watch the intro</button></div>
 
 </body>
 </html>

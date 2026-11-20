@@ -202,7 +202,8 @@ nav .btn{padding:9px 15px;font-size:14px}
 
 
 /* 15. PRICING + COMPARISON ================================================ */
-.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:54px;align-items:stretch}
+.prices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:54px;align-items:stretch}
+@media (max-width:1240px){.prices{grid-template-columns:repeat(2,minmax(0,1fr))}}   /* 4 cards: two rows of two on small laptops */
 .price{padding:28px;border-radius:22px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column}
 .price.best{background:linear-gradient(180deg,rgba(37,99,235,.28),rgba(37,99,235,.05) 60%),var(--card);border-color:rgba(56,189,248,.5);box-shadow:0 20px 44px -22px rgba(37,99,235,.75);position:relative}
 .badge{position:absolute;top:-12px;left:28px;padding:5px 12px;border-radius:999px;background:linear-gradient(135deg,#2563EB,#0EA5E9);font:800 11px Inter;letter-spacing:.06em;text-transform:uppercase}

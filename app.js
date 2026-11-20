@@ -5,7 +5,7 @@
      2. Live test card       — the looping demo card in the hero
      3. Nav bar auto-hide    — hides the menu bar on scroll down
      4. Build animation      — the agents "drawing" the page as you scroll
-     5. Intro tour           — auto-scroll build on first visit + replay
+     5. Intro tour           — optional: starts only from the "Watch the intro" button
      6. Video playback       — plays the demo video only while it's on screen
    ========================================================================== */
 
@@ -15,12 +15,16 @@
 document.querySelectorAll('[data-plan]').forEach(b=>
  b.addEventListener('click',()=>{document.getElementById('plan').value=b.dataset.plan}));
 
+// A shared link like bugbeam.dev/?ref=BB-ACME-4K fills in the friend's referral code.
+(function(){const r=new URLSearchParams(location.search).get('ref'),el=document.getElementById('ref');
+ if(r&&el)el.value=r.toUpperCase().replace(/[^A-Z0-9-]/g,'').slice(0,20)})();
 document.getElementById('f').addEventListener('submit',async e=>{
  e.preventDefault();
  const site=document.getElementById('site').value.trim().replace(/^https?:\/\//,'').replace(/\/$/,''),
        plan=document.getElementById('plan').value,
        pay=document.getElementById('pay').value,
        email=document.getElementById('cemail').value.trim(),
+       ref=document.getElementById('ref').value.trim().toUpperCase().replace(/[^A-Z0-9-]/g,''),
        m=document.getElementById('ordermsg'),
        btn=document.getElementById('sendbtn');
  if(!site||!email||document.getElementById('hp').value)return;          // hp = honeypot: a filled value means a bot
@@ -31,7 +35,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
 
  const subject=`Bugbeam order: ${site}`,
        esc=x=>x.replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])),
-       body=`Website: https://${site}\nPlan: ${plan}\nPayment: ${pay}\nEmail: ${email}`,
+       body=`Website: https://${site}\nPlan: ${plan}\nPayment: ${pay}\nEmail: ${email}`+(ref?`\nReferral code: ${ref}`:''),
        mailtoHref=`mailto:support@bugbeam.dev?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
  // POST to Web3Forms. Returns true only on a confirmed success. 12s cap for slow mobile networks.
@@ -45,7 +49,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
  };
 
  btn.disabled=true;btn.textContent='Sending…';
- const payload={access_key:'67c5140f-3e60-44e0-ae5b-4054ee807eb8',subject,from_name:'Bugbeam website',email,replyto:email,botcheck:'','h-captcha-response':capToken,Website:'https://'+site,Plan:plan,Payment:pay,Email:email,message:body};
+ const payload={access_key:'67c5140f-3e60-44e0-ae5b-4054ee807eb8',subject,from_name:'Bugbeam website',email,replyto:email,botcheck:'','h-captcha-response':capToken,Website:'https://'+site,Plan:plan,Payment:pay,Email:email,...(ref?{'Referral code':ref}:{}),message:body};
 
  // Try Web3Forms, and retry once if a transient network blip drops it (the tablet case).
  let ok=false;
@@ -96,13 +100,20 @@ function lvRun(){
  // scroll the log
  let li=0;const addLog=()=>{const x=LV.log[li++];if(!x)return;const d=document.createElement('div');d.innerHTML=`<b style="color:${x[0]}">${x[1]}</b> → ${x[2]}`;L.appendChild(d);if(L.children.length>4)L.removeChild(L.firstChild)};
  for(let i=0;i<LV.log.length;i++)at(400+i*900,addLog);
- // list bugs, then mark them real / false-alarm
+ // list bugs, then mark them real / false-alarm.
+ // All 4 rows are placed at once (invisible) and only fade in, so the box never changes height:
+ // emptying and refilling it every loop made the whole page jump on phones and tablets
+ // (their browsers don't keep your scroll place when content above you changes size).
  const picks=[0,1,2,4];
- picks.forEach((k,i)=>at(1600+i*700,()=>{
+ picks.forEach(k=>{
   const b=LV.bugs[k],d=document.createElement('div');d.className='bugrow';d.style.opacity=0;d.style.transform='translateY(8px)';
   d.innerHTML=`<span class="sev ${b[0]}">${{h:'High',m:'Medium',l:'Low'}[b[0]]}</span><span>${b[1]}</span><span class="st">found</span>`;
-  B.appendChild(d);requestAnimationFrame(()=>{d.style.opacity=1;d.style.transform='none'});
- }));
+  B.appendChild(d);
+ });
+ // Lock the height the box will have at the end ("false alarm" can wrap to 2 lines), then show "found" again.
+ const sts=[...B.querySelectorAll('.st')];sts.forEach((s,i)=>s.textContent=i===3?'false alarm':'✓ real');
+ B.style.minHeight=Math.max(parseFloat(B.style.minHeight)||0,B.offsetHeight)+'px';sts.forEach(s=>s.textContent='found');
+ picks.forEach((k,i)=>at(1600+i*700,()=>{const d=B.children[i];if(d){d.style.opacity=1;d.style.transform='none'}}));
  at(4500,()=>S.textContent='Verifier is checking…');
  picks.forEach((k,i)=>at(4700+i*450,()=>{const d=B.children[i];if(!d)return;if(i===3){d.classList.add('fa');d.querySelector('.st').textContent='false alarm'}else{d.classList.add('ok');d.querySelector('.st').textContent='✓ real'}}));
  at(6800,()=>{S.textContent='Report sent ✓';let v=0;const iv=setInterval(()=>{v+=2;if(v>=74){v=74;clearInterval(iv)}R.style.setProperty('--v',v);SC.textContent=v},18)});
@@ -293,7 +304,8 @@ if(reduceMotion){
   // Progress HUD + replay button.
   const pct=Math.round(done/steps.length*100);
   const tmsg=hud.dataset.tour||'',rb=document.getElementById('replay');
-  if(rb){const show=pct>=100&&!tourOn;if(rb.hidden===show)rb.hidden=!show}
+  if(rb){const show=!tourOn;if(rb.hidden===show)rb.hidden=!show;   // the intro is optional: the button is always there
+   const lbl=pct>=100?'▶ Watch the build again':'▶ Watch the intro';if(rb.textContent!==lbl)rb.textContent=lbl}
   if(pct!==lastPct||tmsg!==hud._t){hbar.style.width=pct+'%';hud.textContent=tmsg?`${tmsg} · ${pct}%`:pct<100?`11 agents · building this page · ${pct}%`:'✓ page built · 0 bugs found';lastPct=pct;hud._t=tmsg}
 
   // Page fully built: stop reacting to scroll so scrolling stays native-smooth.
@@ -360,12 +372,7 @@ if(reduceMotion){
  }
  replayBtn.addEventListener('click',()=>{if(tourOn)return;scrollTo({top:0,behavior:'instant'});resetBuild();runTour(900)});
 
- // Run the auto-scroll tour once per visitor (on every device), unless they arrive deep-linked
- // or already scrolled down.
- (function(){
-  let seen=false;try{seen=localStorage.getItem('bbTour')==='1'}catch(e){}
-  if(!seen&&!location.hash&&scrollY<=50)runTour(900);
- })();
+ // The intro never starts by itself: visitors start it with the "Watch the intro" button in the bottom bar.
 }
 
 
