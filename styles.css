@@ -120,7 +120,7 @@ nav .btn{padding:9px 15px;font-size:14px}
 .bugrow .tt{min-width:0}
 .bugrow.fa{opacity:.45}.bugrow.fa .tt{text-decoration:line-through}.bugrow .st{white-space:nowrap}
 .sev{font:800 9.5px Inter;letter-spacing:.06em;padding:3px 8px;border-radius:999px;color:#fff;text-transform:uppercase;flex:none}
-.sev.h{background:var(--hi)}.sev.m{background:var(--md)}.sev.l{background:var(--lo)}
+.sev.h{background:#DC2626}.sev.m{background:#C2410C}.sev.l{background:#2563EB}   /* deeper than --hi/--md/--lo: white 9.5px text readable (4.5:1+) */
 .log{margin-top:14px;padding:12px 14px;border-radius:12px;background:#050915;border:1px solid var(--line);font:500 11.5px/1.75 'JetBrains Mono';color:var(--mut);height:104px;overflow:hidden}
 .log b{font-weight:700}
 /* floating labels beside the card */
@@ -164,7 +164,7 @@ nav .btn{padding:9px 15px;font-size:14px}
 .agent .tag{position:absolute;top:16px;right:16px;font:700 10px 'JetBrains Mono';color:var(--ok);display:flex;align-items:center;gap:5px}
 .agent .tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok)}
 .agent.wide{grid-column:span 2;background:linear-gradient(135deg,rgba(37,99,235,.25),rgba(14,165,233,.08)),var(--card);border-color:rgba(56,189,248,.35)}
-.agents.teams{grid-template-columns:repeat(3,minmax(0,1fr))}.teams .agent.wide{grid-column:auto}
+.agents.teams{grid-template-columns:repeat(4,minmax(0,1fr))}.teams .agent.wide{grid-column:1/-1}   /* the Tester on top, its 4 teams in one row */
 .chips{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-wrap:wrap;gap:6px}
 .chips li{font:600 11.5px Inter;color:var(--txt);padding:4px 9px;border-radius:999px;border:1px solid var(--line);background:rgba(148,163,184,.06)}
 .addon{margin:22px auto 0;max-width:760px;padding:16px 20px;border-radius:16px;border:1px dashed rgba(56,189,248,.45);background:rgba(56,189,248,.06);text-align:center;font-size:15px;color:var(--txt)}
@@ -226,7 +226,8 @@ nav .btn{padding:9px 15px;font-size:14px}
 .cmp th{font:600 13px Inter;color:var(--mut);padding:12px 10px;text-align:center;vertical-align:bottom}
 .cmp th b{display:block;font:700 20px 'Space Grotesk';color:var(--txt);margin-top:2px}
 .cmp td{padding:12px 10px;border-top:1px solid var(--line);text-align:center;color:var(--txt)}
-.cmp td:first-child{text-align:left;color:var(--txt);font-weight:500}
+.cmp td:first-child,.cmp tbody th{text-align:left;color:var(--txt);font:500 14.5px Inter;border-top:1px solid var(--line);vertical-align:middle}
+.srh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .cmp td.no{color:var(--dim)}
 .cmp td:not(:first-child):not(.no){color:#A7F3D0;font-weight:600}
 .cmp .hl{background:rgba(37,99,235,.1)}
@@ -343,6 +344,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
  .cmp{padding:16px 10px 4px}
  .cmp table{font-size:12.5px}
  .cmp th,.cmp td{padding:10px 5px}
+ .cmp tbody th{font-size:12.5px}
  .cmp th{font-size:11px}
  .cmp th b{font-size:16px}
  .final{padding:40px 18px}
@@ -387,7 +389,7 @@ body.touring #help{display:none}
  #replay{margin-left:0;padding:6px 10px;font-size:11.5px}
  #helpbtn{padding:9px 13px;font-size:13px}
 }
-body.typing #hud,body.typing #help{opacity:0;pointer-events:none;transform:translateY(calc(100% + 24px))}
+body.typing #hud,body.typing #help,body.fieldbelow #hud,body.fieldbelow #help{opacity:0;pointer-events:none;transform:translateY(calc(100% + 24px))}
 #help{transition:opacity .25s ease,transform .25s ease}
 
 /* Very small phones (320-380px, e.g. iPhone SE): tighter menu and order form, so nothing sticks out sideways */
@@ -402,3 +404,6 @@ body.typing #hud,body.typing #help{opacity:0;pointer-events:none;transform:trans
  .h-captcha{transform:scale(.88);transform-origin:0 0;height:68px;width:267px}
  .fqcap .h-captcha{height:68px}
 }
+
+/* Before "Watch the intro" is tapped, the bottom bar is only the button: no progress bar, no agent dots */
+#hud:not(.on) .avs,#hud:not(.on) .bar,#hud:not(.on) #hudtxt{display:none}

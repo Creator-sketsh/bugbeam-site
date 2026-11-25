@@ -126,7 +126,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
  m.style.display='block';
  if(ok){
   m.style.background='rgba(52,211,153,.1)';m.style.borderColor='rgba(52,211,153,.35)';
-  m.innerHTML=`✓ Order received for <b>${esc(site)}</b>. Check <b>${esc(email)}</b> in a few minutes for the payment details (look in spam too).`;
+  m.innerHTML=`✓ Order received for <b>${esc(site)}</b>. We'll email <b>${esc(email)}</b> the payment details, usually within a few hours (check spam too).`;
   document.getElementById('f').reset();btn.textContent='Order sent ✓';btn.disabled=true;
  }else{
   // No auto-redirect (it does nothing on tablets and freezes the button). Offer a link the user taps.
@@ -151,7 +151,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
 const LV={
  sites:['your-launch.app','new-saas.io','shiplist.co'],
  bugs:[['h','Pricing link answers 404'],['m','Page scrolls sideways on phone'],['l','Image missing alt text'],['m','Popup covers the screen on phone'],['l','Text too small on phone']],
- log:[['#A78BFA','Lead Scout','found a new launch'],['#3B82F6','Bugbeam','testing 15 pages'],['#F472B6','Vision','checking phone layout'],['#3B82F6','Bugbeam','bug found: broken link'],['#84CC16','Verifier','re-testing 5 bugs…'],['#84CC16','Verifier','1 false alarm removed'],['#FB7185','Gatekeeper','report approved ✓'],['#FBBF24','Sales','report sent to founder ✉']]
+ log:[['#A78BFA','Bugbeam','new order received'],['#3B82F6','Bugbeam','testing 15 pages'],['#F472B6','Vision','checking phone layout'],['#3B82F6','Bugbeam','bug found: broken link'],['#84CC16','Verifier','re-testing 5 bugs…'],['#84CC16','Verifier','1 false alarm removed'],['#FB7185','Gatekeeper','report approved ✓'],['#FBBF24','Bugbeam','report emailed to you ✉']]
 };
 let lvRound=0;
 function lvRun(){
@@ -204,8 +204,11 @@ lvRun();
 
 
 /* 4. BUILD ANIMATION ======================================================
-   The 11 agents draw every .bx box and type every [data-type] line as the
-   page scrolls. Skipped entirely when the visitor prefers reduced motion. */
+   The agents draw every .bx box and type every [data-type] line as the page scrolls.
+   It only starts when the visitor taps "Watch the intro": before that the whole page is shown at once.
+   (It used to start on load, so the "Test my site" buttons landed on a blank screen for ~4 s while the
+   agents drew the order form, and on phones the headline typed itself out letter by letter.)
+   Skipped entirely when the visitor prefers reduced motion. */
 const AG=[["Bugbeam","#3B82F6"],["Lead Scout","#A78BFA"],["Vision","#F472B6"],["Verifier","#84CC16"],["Gatekeeper","#FB7185"],["Sales","#FBBF24"],["Inbox","#38BDF8"],["Payments","#34D399"],["Full Test","#2DD4BF"],["Monitoring","#22D3EE"],["Coach","#F87171"]];
 document.getElementById('hudav').innerHTML=AG.map(a=>`<i style="background:${a[1]}"></i>`).join('');
 
@@ -217,6 +220,14 @@ const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(reduceMotion){
  const hud=document.getElementById('hud');if(hud)hud.remove();   // reduced motion → no animation, no HUD
 }else{
+ const introBtn=document.getElementById('replay');
+ let built=false;
+ introBtn.addEventListener('click',function first(){   // first tap: set the animation up, then play it
+  if(built)return;built=true;introBtn.removeEventListener('click',first);
+  document.getElementById('hud').classList.add('on');
+  initBuild();introBtn.click();
+ });
+ function initBuild(){
  document.documentElement.classList.add('js');
  const clamp=x=>Math.min(1,Math.max(0,x)),
        ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
@@ -371,7 +382,7 @@ if(reduceMotion){
   const tmsg=hud.dataset.tour||'',rb=document.getElementById('replay');
   if(rb){const show=!tourOn;if(rb.hidden===show)rb.hidden=!show;   // the intro is optional: the button is always there
    const lbl=pct>=100?'▶ Watch the build again':'▶ Watch the intro';if(rb.textContent!==lbl)rb.textContent=lbl}
-  if(pct!==lastPct||tmsg!==hud._t){hbar.style.width=pct+'%';hud.textContent=tmsg?`${tmsg} · ${pct}%`:pct<100?`11 agents · building this page · ${pct}%`:'✓ page built · 0 bugs found';lastPct=pct;hud._t=tmsg}
+  if(pct!==lastPct||tmsg!==hud._t){hbar.style.width=pct+'%';hud.textContent=tmsg?`${tmsg} · ${pct}%`:pct<100?`Agents building this page · ${pct}%`:'✓ page built · 0 bugs found';lastPct=pct;hud._t=tmsg}
 
   // Page fully built: stop reacting to scroll so scrolling stays native-smooth.
   if(building&&done>=steps.length&&!anyActive){building=false;dirty=false;crew.forEach(c=>{c.el.style.opacity=0;c.was=false})}
@@ -436,6 +447,7 @@ if(reduceMotion){
   },delay);
  }
  replayBtn.addEventListener('click',()=>{if(tourOn)return;scrollTo({top:0,behavior:'instant'});resetBuild();runTour(900)});
+ }   // initBuild
 
  // The intro never starts by itself: visitors start it with the "Watch the intro" button in the bottom bar.
 }
@@ -456,6 +468,19 @@ if(vid){
 /* Phones: while a form field is in use, hide the bottom bar and the help bubble so they never cover what you type */
 document.addEventListener('focusin',e=>{if(e.target.matches('input,select,textarea'))document.body.classList.add('typing')});
 document.addEventListener('focusout',()=>setTimeout(()=>{if(!document.activeElement||!document.activeElement.matches('input,select,textarea'))document.body.classList.remove('typing')},50));
+/* ...and before you tap: on a phone the free-check form can sit right under "Watch the intro" and "Questions?".
+   While any visible form field is in the bottom strip of the screen, both step aside, so the first tap lands in the field. */
+(function(){
+ let t=0;
+ function check(){t=0;
+  const zone=innerHeight-110,small=innerWidth<=760;
+  const hit=small&&[...document.querySelectorAll('form input:not([type=hidden]):not(#hp),form select,form textarea,form button')]
+   .some(el=>{const r=el.getBoundingClientRect();return r.height>0&&r.bottom>zone&&r.top<innerHeight});
+  document.body.classList.toggle('fieldbelow',hit);
+ }
+ const q=()=>{if(!t)t=requestAnimationFrame(check)};
+ addEventListener('scroll',q,{passive:true});addEventListener('resize',q);addEventListener('load',q);q();
+})();
 
 
 /* FAQ: only one answer open at a time. Opening a question closes the one that was open

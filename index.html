@@ -40,9 +40,9 @@
 <body>
 
 <!-- Fixed layers: background, build outlines, agent cursors -->
-<div class="bgfx"></div>
-<div id="ghosts"></div>
-<div id="crew"></div>
+<div class="bgfx" aria-hidden="true"></div>
+<div id="ghosts" aria-hidden="true"></div>
+<div id="crew" aria-hidden="true"></div>
 
 
 <!-- ============================ NAV ============================ -->
@@ -55,9 +55,10 @@
 
 
 <!-- ============================ HERO ============================ -->
+<main id="main">
 <header class="hero" id="top"><div class="wrap grid">
  <div>
-  <div class="pill bx"><span class="dot"></span><span data-type>30 AI agents online now</span></div>
+  <div class="pill bx"><span class="dot"></span><span data-type>30 AI agents + a human QA tester</span></div>
   <h1 data-type>We find the bugs before your users do.</h1>
   <p class="sub" data-type>Just launched? Our AI agents test your website on desktop, tablet and phone, check every bug twice, and send you a clear report in 24 hours.</p>
   <div class="ctas"><a class="btn pri bx" href="#order">Test my site for $19 →</a><a class="btn sec bx" href="#report">See a sample report</a></div>
@@ -118,14 +119,13 @@
 <section id="crew-sec"><div class="wrap">
  <div class="center"><div class="eyebrow" data-type>The crew</div>
  <h2 class="h2" data-type>30 agents. One job: your launch.</h2>
- <p class="lead" data-type>Each agent does one thing really well. They work in five teams around the Tester: find, test, check, care for you, and grow with you.</p></div>
+ <p class="lead" data-type>Each agent does one thing really well. Here is what they do for your site, and a real QA tester reads every report before it reaches you.</p></div>
  <div class="agents teams">
-  <div class="agent wide bx"><span class="tag">online</span><div class="av" style="background:rgba(59,130,246,.25)">🪲</div><h3 data-type>The Tester</h3><p data-type>The main agent. It runs every test and tells the other 29 agents what to do.</p></div>
-  <div class="agent bx"><div class="av" style="background:rgba(167,139,250,.2)">🛰️</div><h3 data-type>Find · 4 agents</h3><p data-type>Spot new launches and pick the right email to reach the founder.</p><ul class="chips"><li>Lead Scout</li><li>Sales</li><li>Email Checker</li><li>A/B Tester</li></ul></div>
-  <div class="agent bx"><div class="av" style="background:rgba(45,212,191,.2)">🧪</div><h3 data-type>Test · 6 agents</h3><p data-type>Open every page on desktop, tablet and phone, two sites at a time.</p><ul class="chips"><li>Pre-check</li><li>Parallel Tester</li><li>Full Test</li><li>Vision</li><li>Accessibility</li><li>Speed &amp; SEO</li></ul></div>
-  <div class="agent bx"><div class="av" style="background:rgba(132,204,22,.2)">🔍</div><h3 data-type>Check · 6 agents</h3><p data-type>Test every bug a second time and remove anything that isn't real.</p><ul class="chips"><li>Verifier</li><li>Quality Analyst</li><li>Gatekeeper</li><li>Proofreader</li><li>Self-test</li><li>Dictionaries</li></ul></div>
-  <div class="agent bx"><div class="av" style="background:rgba(56,189,248,.2)">📥</div><h3 data-type>Care · 7 agents</h3><p data-type>Answer you fast, take your payment and watch your site after it's fixed.</p><ul class="chips"><li>Inbox</li><li>Deliverability</li><li>Payments</li><li>Products</li><li>Trust</li><li>Monitoring</li><li>Coach</li></ul></div>
-  <div class="agent bx"><div class="av" style="background:rgba(244,114,182,.2)">🚀</div><h3 data-type>Grow · 6 agents</h3><p data-type>Fix bugs for you, reward referrals and help agencies test client sites.</p><ul class="chips"><li>Store Scout</li><li>Agency Partner</li><li>Upsell</li><li>Referral</li><li>Fix-It</li><li>Content</li></ul></div>
+  <div class="agent wide bx"><div class="av" style="background:rgba(59,130,246,.25)">🪲</div><h3 data-type>The Tester</h3><p data-type>The main agent. It runs your test from start to finish and directs the rest of the team.</p></div>
+  <div class="agent bx"><div class="av" style="background:rgba(45,212,191,.2)">🧪</div><h3 data-type>Test your pages</h3><p data-type>Open every page on desktop, tablet and phone, like real visitors.</p><ul class="chips"><li>Full Test</li><li>Vision</li><li>Accessibility</li><li>Speed &amp; SEO</li></ul></div>
+  <div class="agent bx"><div class="av" style="background:rgba(132,204,22,.2)">🔍</div><h3 data-type>Check every bug</h3><p data-type>Test each bug a second time and remove anything that isn't real.</p><ul class="chips"><li>Verifier</li><li>Quality Analyst</li><li>Proofreader</li></ul></div>
+  <div class="agent bx"><div class="av" style="background:rgba(56,189,248,.2)">📄</div><h3 data-type>Write your report</h3><p data-type>Screenshots marked in red, exact steps, and a launch score.</p><ul class="chips"><li>Report</li><li>GitHub, Jira, Trello</li></ul></div>
+  <div class="agent bx"><div class="av" style="background:rgba(244,114,182,.2)">📡</div><h3 data-type>Watch it after</h3><p data-type>Re-check your fixes, and with Bugbeam Care, watch your site every week.</p><ul class="chips"><li>Re-check</li><li>Monitoring</li></ul></div>
  </div>
 </div></section>
 
@@ -172,7 +172,7 @@
 
 <!-- ========================= NUMBERS STRIP ======================= -->
 <section style="padding-top:20px"><div class="wrap"><div class="nums">
- <div class="num bx"><b data-type>3</b><span data-type>screen sizes tested</span></div>
+ <div class="num bx"><b data-type>500+</b><span data-type>new launches tested</span></div>
  <div class="num bx"><b data-type>2×</b><span data-type>every bug checked</span></div>
  <div class="num bx"><b data-type>24h</b><span data-type>to get your report</span></div>
  <div class="num bx"><b data-type>$0</b><span data-type>for the re-check</span></div>
@@ -186,7 +186,7 @@
  <p class="lead" data-type>Pay once for a test or an accessibility report, or let our agents watch your site for three months.</p></div>
  <div class="prices">
   <div class="price bx"><h3 data-type>Quick check</h3><div class="amt">Free</div><div class="per">when we find your launch</div><ul><li>A few public pages</li><li>Desktop and phone</li><li>Top issues by email</li></ul><a class="btn sec" href="#order" data-plan="Free quick check">Ask for one</a></div>
-  <div class="price best bx"><span class="badge">Most popular</span><h3 data-type>Full test</h3><div class="amt">$19</div><div class="per">one time</div><ul><li>Up to 15 pages</li><li>Desktop, tablet and phone</li><li>Every bug marked in red, with steps</li><li>PDF + bugs.csv within 24 hours</li><li>Free re-check after 7 days</li></ul><a class="btn pri" href="#order" data-plan="Full test ($19)">Order the full test</a></div>
+  <div class="price best bx"><span class="badge">Recommended</span><h3 data-type>Full test</h3><div class="amt">$19</div><div class="per">one time</div><ul><li>Up to 15 pages</li><li>Desktop, tablet and phone</li><li>Every bug marked in red, with steps</li><li>PDF + bugs.csv within 24 hours</li><li>Free re-check after 7 days</li></ul><a class="btn pri" href="#order" data-plan="Full test ($19)">Order the full test</a></div>
   <div class="price bx"><h3 data-type>Bugbeam Care</h3><div class="amt">$69</div><div class="per">for 3 months, paid once</div><ul><li>A full test every month</li><li>A check every week: what's new or fixed</li><li>An email right away if your site goes down</li><li>Every report as a PDF</li></ul><a class="btn sec" href="#order" data-plan="Bugbeam Care ($69 for 3 months)">Start Bugbeam Care</a></div>
   <div class="price bx" style="position:relative"><span class="badge" style="background:linear-gradient(135deg,#7C3AED,#C026D3)">New</span><h3 data-type>Accessibility report</h3><div class="amt">$129</div><div class="per">one time · WCAG 2.1 AA</div><ul><li>Every page checked against WCAG 2.1 A and AA</li><li>Desktop and phone</li><li>Each problem: where it is, how serious, how to fix it</li><li>Shows what to fix for the European Accessibility Act</li><li>PDF within 24 hours</li></ul><a class="btn sec" href="#order" data-plan="Accessibility report ($129, WCAG 2.1 AA)">Order the report</a></div>
  </div>
@@ -194,20 +194,20 @@
  <div class="cmp bx">
   <div class="cmph"><h3>Everything we do</h3><span>and which plan includes it</span></div>
   <table>
-   <thead><tr><th></th><th>Quick check<b>Free</b></th><th class="hl">Full test<b>$19</b></th><th>Bugbeam Care<b>$69</b></th></tr></thead>
+   <thead><tr><th scope="col"><span class="srh">What you get</span></th><th scope="col">Quick check<b>Free</b></th><th scope="col" class="hl">Full test<b>$19</b></th><th scope="col">Bugbeam Care<b>$69</b></th></tr></thead>
    <tbody>
-    <tr><td>Bug test of your public pages</td><td>a few pages</td><td class="hl">up to 15</td><td>every month</td></tr>
-    <tr><td>Desktop, tablet and phone</td><td>desktop + phone</td><td class="hl">✓</td><td>✓</td></tr>
-    <tr><td>Every bug checked twice</td><td>✓</td><td class="hl">✓</td><td>✓</td></tr>
-    <tr><td>Screenshot marked in red + exact steps</td><td>top issues</td><td class="hl">✓</td><td>✓</td></tr>
-    <tr><td>Send bugs to GitHub, Jira or Trello (bugs.csv)</td><td class="no">–</td><td class="hl">✓</td><td>✓</td></tr>
-    <tr><td>Bugs sorted High, Medium, Low</td><td>✓</td><td class="hl">✓</td><td>✓</td></tr>
-    <tr><td>Launch score from 0 to 100</td><td class="no">–</td><td class="hl">✓</td><td>✓</td></tr>
-    <tr><td>PDF report you can send your developer</td><td class="no">–</td><td class="hl">in 24 hours</td><td>every report</td></tr>
-    <tr><td>Free re-check: are your fixes working?</td><td class="no">–</td><td class="hl">after 7 days</td><td>✓</td></tr>
-    <tr><td>Weekly check: what's new or fixed</td><td class="no">–</td><td class="no hl">–</td><td>✓</td></tr>
-    <tr><td>Is it up? Checked every 5 minutes</td><td class="no">–</td><td class="no hl">–</td><td>✓</td></tr>
-    <tr><td>Email right away if your site goes down</td><td class="no">–</td><td class="no hl">–</td><td>✓</td></tr>
+    <tr><th scope="row">Bug test of your public pages</th><td>a few pages</td><td class="hl">up to 15</td><td>every month</td></tr>
+    <tr><th scope="row">Desktop, tablet and phone</th><td>desktop + phone</td><td class="hl">✓</td><td>✓</td></tr>
+    <tr><th scope="row">Every bug checked twice</th><td>✓</td><td class="hl">✓</td><td>✓</td></tr>
+    <tr><th scope="row">Screenshot marked in red + exact steps</th><td>top issues</td><td class="hl">✓</td><td>✓</td></tr>
+    <tr><th scope="row">Send bugs to GitHub, Jira or Trello (bugs.csv)</th><td class="no">–</td><td class="hl">✓</td><td>✓</td></tr>
+    <tr><th scope="row">Bugs sorted High, Medium, Low</th><td>✓</td><td class="hl">✓</td><td>✓</td></tr>
+    <tr><th scope="row">Launch score from 0 to 100</th><td class="no">–</td><td class="hl">✓</td><td>✓</td></tr>
+    <tr><th scope="row">PDF report you can send your developer</th><td class="no">–</td><td class="hl">in 24 hours</td><td>every report</td></tr>
+    <tr><th scope="row">Free re-check: are your fixes working?</th><td class="no">–</td><td class="hl">after 7 days</td><td>✓</td></tr>
+    <tr><th scope="row">Weekly check: what's new or fixed</th><td class="no">–</td><td class="no hl">–</td><td>✓</td></tr>
+    <tr><th scope="row">Is it up? Checked every 5 minutes</th><td class="no">–</td><td class="no hl">–</td><td>✓</td></tr>
+    <tr><th scope="row">Email right away if your site goes down</th><td class="no">–</td><td class="no hl">–</td><td>✓</td></tr>
    </tbody>
   </table>
  </div>
@@ -219,7 +219,7 @@
 
 <!-- ============================ ORDER =========================== -->
 <section id="order"><div class="wrap"><div class="order bx">
- <div><div class="eyebrow">Order</div><h2 class="h2" data-type>Get your site tested.</h2><p class="lead" data-type>Fill this in and click the button. Our agents reply to your email within minutes with the payment details for the way you chose, then your test starts.</p></div>
+ <div><div class="eyebrow">Order</div><h2 class="h2" data-type>Get your site tested.</h2><p class="lead" data-type>Fill this in and click the button. We email you the payment details for the way you chose, usually within a few hours, then your test starts.</p></div>
  <form id="f">
   <label for="site">Your website</label><input id="site" placeholder="yoursite.com" required autocomplete="url">
   <label for="cemail">Your email (we send the report here)</label><input id="cemail" type="email" placeholder="you@yoursite.com" required autocomplete="email">
@@ -261,6 +261,8 @@
 </div></div></section>
 
 
+</main>
+
 <!-- ============================ FOOTER =========================== -->
 <footer><div class="wrap"><a class="logo" href="#top" style="font-size:18px"><span>Bug<b>beam</b></span></a><span>QA testing for new launches · <a href="mailto:support@bugbeam.dev" style="color:var(--cyan)">support@bugbeam.dev</a></span><span><a href="privacy.html" style="color:var(--mut)">Privacy</a> · <a href="terms.html" style="color:var(--mut)">Terms</a> · © 2026 Bugbeam</span></div></footer>
 
@@ -270,7 +272,7 @@
  <div id="helppanel" role="dialog" aria-label="Quick answers" hidden><div class="hph"><b>Quick answers</b><button type="button" id="helpx" aria-label="Close">✕</button></div><div id="helpbody"></div></div></div>
 
 <!-- Build-progress HUD (bottom-left) -->
-<div id="hud"><div class="avs" id="hudav"></div><span id="hudtxt">building this page</span><div class="bar"><i id="hudbar"></i></div><button id="replay" type="button">▶ Watch the intro</button></div>
+<div id="hud"><div class="avs" id="hudav"></div><span id="hudtxt" aria-hidden="true">building this page</span><div class="bar"><i id="hudbar"></i></div><button id="replay" type="button">▶ Watch the intro</button></div>
 
 </body>
 </html>
