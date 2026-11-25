@@ -65,7 +65,7 @@ function resetCaptcha(form){const fr=form&&form.querySelector('iframe[data-hcapt
   ['What if you find nothing?','Our promise: full refund if we find no real bugs, if we can\'t test your site, or if your report isn\'t in your inbox within 24 hours of payment.',[['Check my site free first','#fq']]],
   ['Is it safe for my site?','Yes. We test only your public pages, the way a visitor sees them. We never sign up, log in, buy anything or send your forms with real data. No access to your code or accounts.',[]],
   ['How fast is it?','Within 24 hours of your payment, usually sooner. If it\'s late, you get a full refund. The free quick check usually arrives within 24 hours too.',[]],
-  ['Who is behind Bugbeam?','Elio Bathani, a QA tester, with AI agents that test around the clock and check every bug twice. Questions? Email support@bugbeam.dev.',[['Email us','mailto:support@bugbeam.dev']]]];
+  ['Who is behind Bugbeam?','Elio Bathani, a QA tester, with AI agents that test every night and check every bug twice. He reads every report before it goes out. Questions? Email support@bugbeam.dev.',[['Email us','mailto:support@bugbeam.dev']]]];
  const list=()=>{body.innerHTML=QA.map((q,i)=>`<button type="button" class="q" data-i="${i}">${q[0]}</button>`).join('')};
  const answer=i=>{const [q,a,acts]=QA[i];
   body.innerHTML=`<button type="button" class="back">‹ All questions</button><p><b>${q}</b></p><p class="a">${a}</p><div class="acts">`+
